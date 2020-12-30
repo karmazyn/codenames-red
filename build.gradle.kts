@@ -1,13 +1,12 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id("org.springframework.boot") version "2.4.1"
-    id("io.spring.dependency-management") version "1.0.10.RELEASE"
     groovy
     application
     kotlin("jvm") version "1.4.21"
+    id("org.springframework.boot") version "2.4.1"
+    id("io.spring.dependency-management") version "1.0.10.RELEASE"
     kotlin("plugin.spring") version "1.4.21"
-//    id("com.moowork.node") version "1.3.1" apply false
     id("com.github.node-gradle.node") version "3.0.0-rc5" apply false
 }
 
@@ -18,7 +17,6 @@ java.sourceCompatibility = JavaVersion.VERSION_11
 tasks.processResources {
     dependsOn(":webapp:buildWebapp")
     from("webapp/build")
-
 }
 
 repositories {
@@ -35,8 +33,6 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.springframework.session:spring-session-core")
-
-//    implementation(project(":webapp"))
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.codehaus.groovy:groovy:2.5.14")
@@ -57,9 +53,3 @@ tasks.withType<KotlinCompile> {
         jvmTarget = "11"
     }
 }
-
-//tasks.clean {
-//    doFirst {
-//        delete.add("${rootDir}/src/resources/static/dist/")
-//    }
-//}
