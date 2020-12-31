@@ -9,13 +9,11 @@ import org.springframework.web.bind.annotation.RestController
 import java.util.concurrent.CompletableFuture
 
 @RestController
-@RequestMapping("/hello",
-        produces = [MediaType.APPLICATION_JSON_VALUE],
-        consumes = [MediaType.APPLICATION_JSON_VALUE])
+@RequestMapping("/hello")
 class HelloWorldController {
-    @GetMapping
+    @GetMapping(produces = [MediaType.APPLICATION_JSON_VALUE])
     @ResponseBody
-    fun sayHello(@RequestParam(name="name", required = false, defaultValue = "you") name: String): CompletableFuture<HelloResponse> =
+    fun sayHello(@RequestParam(name = "name", required = false, defaultValue = "you") name: String): CompletableFuture<HelloResponse> =
             CompletableFuture.completedFuture(HelloResponse("Hello $name!"))
 }
 
