@@ -6,7 +6,7 @@ class Main extends Component {
     render() {
         return (
             <div id="main">
-                <h1>Demo Component</h1>
+                <h1>Demo Component - it's awesome!</h1>
                 <img src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg"/>
             </div>
         );
