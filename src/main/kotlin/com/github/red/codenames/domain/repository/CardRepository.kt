@@ -14,7 +14,8 @@ class CardRepository {
 
     @PostConstruct
     fun loadCards(): Unit {
-        val lines = ClassPathResource("codenames.csv").file.readLines()
+        val lines = ClassPathResource("codenames.csv")
+                .inputStream.bufferedReader().readLines()
         cards = lines
                 .map { line -> line.split(";") }
                 .filter { it.size == 2 }
