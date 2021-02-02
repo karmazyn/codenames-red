@@ -1,12 +1,12 @@
 const path = require('path');
 
 module.exports = {
-    entry: "./src/app/Main.jsx",
+    entry: "./src/app/App.jsx",
     output: {
         path: path.resolve(__dirname,'build/static/dist'),
         filename: "react-app.js"
     },
-    devtool: 'source-map',
+    devtool: "source-map",
     module: {
         rules: [{
             test: /\.(js|jsx)$/,
@@ -16,10 +16,15 @@ module.exports = {
                 presets: ['@babel/preset-env', '@babel/preset-react']
             }
         }, {
-            test: /\.css$/,
+            test: /\.css$/i,
             exclude: /node_modules/,
-            loader: "style-loader!css-loader"
-        }]
+            use: ['style-loader', 'css-loader'],
+        }, {
+            test: /\.(png|svg|jpg|jpeg|gif)$/i,
+            exclude: /node_modules/,
+            type: 'asset/resource'
+        }
+        ]
     },
     resolve: {
         extensions: ['.js', '.jsx']
