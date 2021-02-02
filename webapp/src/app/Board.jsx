@@ -14,7 +14,8 @@ const useStyles = theme => ({
         overflow: 'hidden',
     },
     gridList: {
-        alignItems: "center"
+        alignItems: "center",
+        justifyContent: "center"
     },
     subheader: {
         height: "auto",
