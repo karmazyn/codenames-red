@@ -1,10 +1,12 @@
-import React from 'react';
-import {makeStyles} from "@material-ui/core/styles";
+import React, {Component} from 'react';
 import CodenameCard from "./CodenameCard";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
+import withStyles from "@material-ui/core/styles/withStyles";
+import ListSubheader from "@material-ui/core/ListSubheader";
+import {Typography} from "@material-ui/core";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = theme => ({
     root: {
         display: 'flex',
         flexWrap: 'nowrap',
@@ -12,29 +14,67 @@ const useStyles = makeStyles((theme) => ({
         overflow: 'hidden',
     },
     gridList: {
+        alignItems: "center"
+    },
+    subheader: {
+        height: "auto",
+        justifyContent: "bottom",
+        textAlign: "center"
     },
     gridListTile: {
         alignItems: 'stretch',
         borderSpacing: 2,
-        maxHeight: 80,
-        maxWidth: 160
+        maxHeight: 100,
+        maxWidth: 200
     },
-}));
+});
 
-export default function Board() {
-    const classes = useStyles()
+class Board extends Component {
 
-    const cards = ["karta1", "karta2", "karta3", "karta4", "karta5", "karta6", "karta7",
-        "karta8", "karta9", "karta10", "karta11", "karta12", "karta13", "karta14",
-        "karta15", "karta16", "karta17", "karta18", "karta19", "karta20", "karta21",
-        "karta22", "karta23", "karta24", "karta25"]
-    return (
-        <GridList className={classes.gridList} spacing={2} cols={5}>
-            {cards.map((card, index) => (
-                <GridListTile cols={1} rows={1} key={index} className={classes.gridListTile}>
-                    <CodenameCard codename={card}/>
+    constructor(props) {
+        super(props);
+        this.state = {
+            boardId: "",
+            fields: [],
+            starts: ""
+        }
+    }
+
+    componentDidMount() {
+        const url = "/api/boards"
+        fetch(url, {
+            method: "POST"
+        })
+            .then((result) => result.json())
+            .then((result) => {
+                this.setState({
+                    boardId: result.id,
+                    fields: result.fields,
+                    starts: result.starts
+                })
+            })
+    }
+
+    render() {
+        const {classes} = this.props;
+
+        const {boardId, fields, starts} = this.state
+        return (
+            <GridList className={classes.gridList} spacing={5} cols={5}>
+                <GridListTile key="Subheader" className={classes.subheader} cols={5}>
+                    <ListSubheader disableGutters disableSticky component="div">
+                        <Typography variant={"h3"}>Zaczynają {starts}!</Typography>
+                        <Typography variant={"overline"}>id#{boardId}</Typography>
+                    </ListSubheader>
                 </GridListTile>
-            ))}
-        </GridList>
-    );
+                {fields.map((card, index) => (
+                    <GridListTile cols={1} rows={1} key={index} className={classes.gridListTile}>
+                        <CodenameCard codename={card.codename} cardType={card.type}/>
+                    </GridListTile>
+                ))}
+            </GridList>
+        );
+    }
 }
+
+export default withStyles(useStyles)(Board);

@@ -18,7 +18,7 @@ class BoardController(private val boardService: BoardService) {
 
 
     @GetMapping("/{id}")
-    fun getBoard(@PathVariable id: String): Board? = boardService.getBoard(id)
+    fun getBoard(@PathVariable id: String): Board? = boardService.getBoard(id.toLowerCase())
 
 
     @GetMapping
