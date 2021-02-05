@@ -6,12 +6,32 @@ import Container from "@material-ui/core/Container";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import DashboardPanel from "./DashboardPanel";
 
+import {Provider} from "react-redux";
+import store from "./redux/store";
+import { connect } from "react-redux";
+import { initBoard } from "./redux/Actions";
+
 class App extends Component {
+    componentDidMount() {
+        const url = "/api/boards"
+        fetch(url, {
+            method: "POST"
+        })
+            .then((result) => result.json())
+            .then((result) => {
+                this.props.initBoard({
+                    boardId: result.id,
+                    fields: result.fields,
+                    starts: result.starts,
+                })
+            })
+    }
+
     render() {
         return (
             <React.Fragment>
                 <CssBaseline/>
-                <DashboardPanel  />
+                <DashboardPanel/>
                 <Container id="main" className={"App"} maxWidth="md">
                     <Board/>
                 </Container>
@@ -20,7 +40,11 @@ class App extends Component {
     }
 }
 
+const ConnectedApp = connect(null, { initBoard })(App);
+
 ReactDOM.render(
-    <App/>,
+    <Provider store={store}>
+        <ConnectedApp/>
+    </Provider>,
     document.getElementById('root')
 );
