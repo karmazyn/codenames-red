@@ -3,8 +3,7 @@ import {InputAdornment, Typography} from "@material-ui/core";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import withStyles from "@material-ui/core/styles/withStyles";
-import {PlusOne} from "@material-ui/icons";
-import Input from "@material-ui/core/Input";
+import PlayerInput from "./PlayerInput";
 
 const useStyles = theme => ({
     '@global': {
@@ -23,9 +22,6 @@ const useStyles = theme => ({
     toolbarTitle: {
         flexGrow: 1,
     },
-    login: {
-        margin: theme.spacing(1, 1.5),
-    },
     iconButton: {
         padding: 10,
     },
@@ -41,13 +37,7 @@ class DashboardPanel extends Component {
                     <Typography variant="h6" color="inherit" noWrap className={classes.toolbarTitle}>
                         Hackatajniacy
                     </Typography>
-                    <Input id="input-login" className={classes.login} variant="outlined" placeholder={"Podaj imię"}
-                           endAdornment={
-                               <InputAdornment position={"end"}>
-                                   <PlusOne/>
-                               </InputAdornment>
-                           }
-                    />
+                    <PlayerInput />
                 </Toolbar>
             </AppBar>
         );
