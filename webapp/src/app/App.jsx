@@ -10,8 +10,9 @@ import TeamChooser from "./TeamChooser";
 import {Provider} from "react-redux";
 import store from "./redux/Store";
 import { connect } from "react-redux";
-import {initBoard, updateBoard} from "./redux/Actions";
+import { initBoard, updateBoard } from "./redux/Actions";
 import {getBoardId} from "./redux/Selectors";
+import { CookiesProvider } from 'react-cookie';
 
 class App extends Component {
     componentDidMount() {
@@ -65,8 +66,10 @@ const mapStateToProps = state => {
 const ConnectedApp = connect(mapStateToProps, { initBoard, updateBoard })(App);
 
 ReactDOM.render(
-    <Provider store={store}>
-        <ConnectedApp/>
-    </Provider>,
+    <CookiesProvider>
+        <Provider store={store}>
+            <ConnectedApp/>
+        </Provider>
+    </CookiesProvider>,
     document.getElementById('root')
 );
