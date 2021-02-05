@@ -5,6 +5,7 @@ import Board from "./Board";
 import Container from "@material-ui/core/Container";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import DashboardPanel from "./DashboardPanel";
+import TeamChooser from "./TeamChooser";
 
 import {Provider} from "react-redux";
 import store from "./redux/Store";
@@ -49,6 +50,7 @@ class App extends Component {
                 <Container id="main" className={"App"} maxWidth="md">
                     <Board/>
                 </Container>
+                {/*<TeamChooser />*/}
             </React.Fragment>
         );
     }
