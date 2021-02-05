@@ -33,11 +33,19 @@ class BoardService(private val cardRepository: CardRepository,
                 else -> Field(selectSide(card), Type.ASSASIN)
             }
         }
-        val board = Board(UUID.randomUUID().toString(), fields.shuffled(), starts, height, width)
+        val board = Board(UUID.randomUUID().toString(), fields.shuffled().toMutableList(), starts, height, width)
         return boardRepository.save(board)
     }
 
     fun listBoards(): List<Board> = boardRepository.findAll()
+
+    fun clickCard(boardId: String, cardId: Int): Board {
+        getBoard(boardId)?.let {
+            it.fields[cardId] = it.fields[cardId].copy(clicked = true);
+            boardRepository.save(it)
+        }
+        return getBoard(boardId)!!
+    }
 
     private fun selectSide(card: Card) = if (Random.nextBoolean()) card.rightSide else card.leftSide
 

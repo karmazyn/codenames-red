@@ -78,7 +78,10 @@ class CodenameCard extends Component {
         }
         fetch("/api/boards/clicks", {
             method: "POST",
-            body: JSON.stringify(data)
+            body: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json'
+            }
         })
             .then((result) => result.json())
             .then((result) => {
