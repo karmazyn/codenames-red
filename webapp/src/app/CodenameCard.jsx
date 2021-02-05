@@ -4,6 +4,8 @@ import {Box, CardActionArea} from "@material-ui/core";
 import Card from "@material-ui/core/Card";
 import Typography from "@material-ui/core/Typography";
 import withStyles from "@material-ui/core/styles/withStyles";
+import {updateBoardOnClick} from "./redux/Actions";
+import { connect } from "react-redux";
 
 const useStyles = (theme) => ({
     card_DEFAULT: {
@@ -68,11 +70,30 @@ const useStyles = (theme) => ({
 });
 
 class CodenameCard extends Component {
+
+    handleClick(index, boardId) {
+        const data = {
+            boardId: boardId,
+            cardIndex: index
+        }
+        fetch("/click", {
+            method: "POST",
+            body: JSON.stringify(data)
+        })
+            .then((result) => result.json())
+            .then((result) => {
+                this.props.updateBoardOnClick({
+                    fields: result.fields
+                })
+            })
+    }
+
     render() {
         const {classes} = this.props;
 
         return (
             <Card className={classes[`card_${this.props.cardType || "DEFAULT"}`]}
+                  onClick={() => this.handleClick(this.props.index, this.props.boardId)}
                   variant={"outlined"}>
                 <CardActionArea className={classes.actionArea}>
                     {/*<CardMedia*/}
@@ -93,4 +114,5 @@ class CodenameCard extends Component {
     }
 }
 
-export default withStyles(useStyles)(CodenameCard)
+export default connect(null, { updateBoardOnClick })(withStyles(useStyles)(CodenameCard));
+

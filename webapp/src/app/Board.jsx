@@ -48,7 +48,9 @@ class Board extends Component {
                 {fields.map((card, index) => (
                     <GridListTile cols={1} rows={1} key={index} className={classes.gridListTile}>
                         <CodenameCard codename={card.codename}
-                                      cardType={card.type}/>
+                                      cardType={card.type}
+                                      index={index}
+                                      boardId={boardId}/>
                     </GridListTile>
                 ))}
             </GridList>
