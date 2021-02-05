@@ -33,7 +33,6 @@ const useStyles = theme => ({
 });
 
 class Board extends Component {
-
     render() {
         const {classes} = this.props;
         const {boardId, fields, starts} = this.props
@@ -48,7 +47,8 @@ class Board extends Component {
                 </GridListTile>
                 {fields.map((card, index) => (
                     <GridListTile cols={1} rows={1} key={index} className={classes.gridListTile}>
-                        <CodenameCard codename={card.codename} cardType={card.type}/>
+                        <CodenameCard codename={card.codename}
+                                      cardType={card.type}/>
                     </GridListTile>
                 ))}
             </GridList>

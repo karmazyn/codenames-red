@@ -6,11 +6,35 @@ import Typography from "@material-ui/core/Typography";
 import withStyles from "@material-ui/core/styles/withStyles";
 
 const useStyles = (theme) => ({
-    card: {
+    card_DEFAULT: {
         height: '100%',
         display: 'flex',
         flexDirection: 'column',
         backgroundColor: "#f1e6d3"
+    },
+    card_PASSERBY: {
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        backgroundColor: "#cbcbcb"
+    },
+    card_RED: {
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        backgroundColor: "#de2c3d"
+    },
+    card_BLUE: {
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        backgroundColor: "#3d96cf"
+    },
+    card_ASSASIN: {
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        backgroundColor: "#474441"
     },
     media: {
         paddingTop: '56.25%', // 16:9
@@ -48,7 +72,8 @@ class CodenameCard extends Component {
         const {classes} = this.props;
 
         return (
-            <Card className={classes.card} variant={"outlined"}>
+            <Card className={classes[`card_${this.props.cardType || "DEFAULT"}`]}
+                  variant={"outlined"}>
                 <CardActionArea className={classes.actionArea}>
                     {/*<CardMedia*/}
                     {/*    className={classes.media}*/}

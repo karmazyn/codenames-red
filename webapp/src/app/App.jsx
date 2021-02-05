@@ -7,7 +7,7 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import DashboardPanel from "./DashboardPanel";
 
 import {Provider} from "react-redux";
-import store from "./redux/store";
+import store from "./redux/Store";
 import { connect } from "react-redux";
 import { initBoard } from "./redux/Actions";
 
