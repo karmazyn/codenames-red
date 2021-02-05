@@ -4,24 +4,22 @@ import com.github.red.codenames.domain.model.Player
 import com.github.red.codenames.domain.model.Role
 import com.github.red.codenames.domain.model.Team
 import org.springframework.stereotype.Repository
-import kotlin.random.Random
+import java.util.concurrent.ConcurrentHashMap
 
 @Repository
 class PlayerRepository {
 
-    private val players = mutableMapOf(
-            "Gosia" to Player("Gosia", Team.RED, Role.GUESSER),
-            "Kasia" to Player("Kasia", Team.RED, Role.CAPTAIN),
-            "Kacper" to Player("Kacper", Team.BLUE, Role.CAPTAIN),
-            "Matysia" to Player("Matysia", Team.BLUE, Role.GUESSER)
-    )
+    private val players = ConcurrentHashMap<String, Player>()
 
     fun listPlayers(): List<Player> = players.values.toList()
 
     fun getPlayer(name: String): Player? = players[name]
 
-    fun addPlayer(name: String, team: Team?): Player? {
-        val player = Player(name, team ?: if (Random.nextBoolean()) Team.RED else Team.BLUE, Role.GUESSER)
-        return players.putIfAbsent(name, player)
+    fun addPlayer(name: String): Player? {
+        val player = Player(name, Team.NONE, Role.SPECTATOR)
+        val wasAdded = players.putIfAbsent(name, player) == null
+        return if (wasAdded) player else null
     }
+
+    fun clearPlayers() = players.clear()
 }
