@@ -1,11 +1,12 @@
-import React, {Component, useEffect} from 'react';
-import {InputAdornment, Typography} from "@material-ui/core";
+import React, {Component} from 'react';
+import {Typography} from "@material-ui/core";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import withStyles from "@material-ui/core/styles/withStyles";
 import PlayerInput from "./PlayerInput";
-import { useCookies, withCookies } from 'react-cookie';
 import PlayerInfo from "./PlayerInfo";
+import {getPlayerName} from "./redux/Selectors";
+import {connect} from "react-redux";
 
 const useStyles = theme => ({
     '@global': {
@@ -30,18 +31,6 @@ const useStyles = theme => ({
 });
 
 class DashboardPanel extends Component {
-
-    constructor(props) {
-        super(props);
-
-        const { cookies } = props;
-        this.state = {
-            name: cookies.get('name') || "ANON",
-            team: "NIEZNANY",
-            role: "NIEZNANA"
-        };
-    }
-
     render() {
         const {classes} = this.props;
         return (
@@ -50,7 +39,7 @@ class DashboardPanel extends Component {
                     <Typography variant="h6" color="inherit" noWrap className={classes.toolbarTitle}>
                         Hackatajniacy
                     </Typography>
-                    <PlayerInfo name={this.state.name} team={this.state.team} role={this.state.role} />
+                    <PlayerInfo name={this.props.name}/>
                     <PlayerInput />
                 </Toolbar>
             </AppBar>
@@ -58,4 +47,10 @@ class DashboardPanel extends Component {
     }
 }
 
-export default withCookies(withStyles(useStyles)(DashboardPanel));
+const mapStateToProps = state => {
+    return {
+        name: getPlayerName(state),
+    };
+}
+
+export default connect(mapStateToProps)(withStyles(useStyles)(DashboardPanel));

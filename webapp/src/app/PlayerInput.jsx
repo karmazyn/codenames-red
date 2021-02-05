@@ -3,6 +3,9 @@ import {InputAdornment} from "@material-ui/core";
 import {Input} from "@material-ui/core";
 import {PlusOne} from "@material-ui/icons";
 import withStyles from "@material-ui/core/styles/withStyles";
+import { connect } from "react-redux";
+import { getPlayerName } from "./redux/Selectors";
+import { assignPlayerName } from "./redux/Actions";
 
 const useStyles = theme => ({
     login: {
@@ -24,6 +27,7 @@ class PlayerInput extends Component {
         }).then((result) => {
                 if(result.ok) {
                     this.setState({error: false})
+                    this.props.assignPlayerName({name: this.state.value});
                 } else {
                     this.setState({error: true})
                 }
@@ -52,4 +56,10 @@ class PlayerInput extends Component {
     }
 }
 
-export default withStyles(useStyles)(PlayerInput);
+const mapStateToProps = state => {
+    return {
+        name: getPlayerName(state),
+    };
+}
+
+export default connect(mapStateToProps, { assignPlayerName })(withStyles(useStyles)(PlayerInput));
