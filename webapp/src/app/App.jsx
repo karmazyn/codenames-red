@@ -9,7 +9,8 @@ import DashboardPanel from "./DashboardPanel";
 import {Provider} from "react-redux";
 import store from "./redux/Store";
 import { connect } from "react-redux";
-import { initBoard } from "./redux/Actions";
+import {initBoard, updateBoard} from "./redux/Actions";
+import {getBoardId} from "./redux/Selectors";
 
 class App extends Component {
     componentDidMount() {
@@ -25,6 +26,19 @@ class App extends Component {
                     starts: result.starts,
                 })
             })
+            .then(() => {
+                this.updateBoardStateScheduleAsync()
+            });
+    }
+
+    updateBoardStateScheduleAsync() {
+        let intervalId = setInterval(() => {
+            clearInterval(intervalId);
+            fetch(`/api/boards/${this.props.boardId}`)
+                .then(result => result.json())
+                .then(result => this.props.updateBoard(result))
+                .then(() => this.updateBoardStateScheduleAsync());
+        }, 1000);
     }
 
     render() {
@@ -40,7 +54,13 @@ class App extends Component {
     }
 }
 
-const ConnectedApp = connect(null, { initBoard })(App);
+const mapStateToProps = state => {
+    return {
+        boardId: getBoardId(state),
+    };
+}
+
+const ConnectedApp = connect(mapStateToProps, { initBoard, updateBoard })(App);
 
 ReactDOM.render(
     <Provider store={store}>

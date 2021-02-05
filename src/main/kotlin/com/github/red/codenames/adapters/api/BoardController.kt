@@ -28,7 +28,7 @@ class BoardController(private val boardService: BoardService) {
     fun clicks(@RequestBody request: ClickRequest): ResponseBoard =
         mapBoardForPlayer(boardService.clickCard(request.boardId, request.cardIndex))
 
-    private fun mapBoardForPlayer(board: Board, isCapitan: Boolean = false): ResponseBoard =
+    private fun mapBoardForPlayer(board: Board, isCapitan: Boolean = true): ResponseBoard =
         ResponseBoard(
             id = board.id,
             fields = board.fields.map {

@@ -4,7 +4,7 @@ import {Box, CardActionArea} from "@material-ui/core";
 import Card from "@material-ui/core/Card";
 import Typography from "@material-ui/core/Typography";
 import withStyles from "@material-ui/core/styles/withStyles";
-import {updateBoardOnClick} from "./redux/Actions";
+import {updateBoard} from "./redux/Actions";
 import { connect } from "react-redux";
 
 const useStyles = (theme) => ({
@@ -117,5 +117,5 @@ class CodenameCard extends Component {
     }
 }
 
-export default connect(null, { updateBoardOnClick })(withStyles(useStyles)(CodenameCard));
+export default connect(null, { updateBoardOnClick: updateBoard })(withStyles(useStyles)(CodenameCard));
 

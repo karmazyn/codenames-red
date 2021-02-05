@@ -1,4 +1,4 @@
-import { INIT_BOARD, UPDATE_ON_CLICK} from "./ActionTypes";
+import {INIT_BOARD, UPDATE_BOARD} from "./ActionTypes";
 
 export const initBoard = ({boardId, fields, starts}) => ({
     type: INIT_BOARD,
@@ -9,7 +9,7 @@ export const initBoard = ({boardId, fields, starts}) => ({
     },
 });
 
-export const updateBoardOnClick = ({fields}) => ({
-    type: UPDATE_ON_CLICK,
-    payload: {fields}
+export const updateBoard = ({fields, starts}) => ({
+    type: UPDATE_BOARD,
+    payload: {fields, starts}
 });
