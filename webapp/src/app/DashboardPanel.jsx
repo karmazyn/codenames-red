@@ -1,9 +1,12 @@
 import React, {Component} from 'react';
-import {InputAdornment, Typography} from "@material-ui/core";
+import {Typography} from "@material-ui/core";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import withStyles from "@material-ui/core/styles/withStyles";
 import PlayerInput from "./PlayerInput";
+import PlayerInfo from "./PlayerInfo";
+import {getPlayerName} from "./redux/Selectors";
+import {connect} from "react-redux";
 
 const useStyles = theme => ({
     '@global': {
@@ -28,7 +31,6 @@ const useStyles = theme => ({
 });
 
 class DashboardPanel extends Component {
-
     render() {
         const {classes} = this.props;
         return (
@@ -37,6 +39,7 @@ class DashboardPanel extends Component {
                     <Typography variant="h6" color="inherit" noWrap className={classes.toolbarTitle}>
                         Hackatajniacy
                     </Typography>
+                    <PlayerInfo name={this.props.name}/>
                     <PlayerInput />
                 </Toolbar>
             </AppBar>
@@ -44,4 +47,10 @@ class DashboardPanel extends Component {
     }
 }
 
-export default withStyles(useStyles)(DashboardPanel);
+const mapStateToProps = state => {
+    return {
+        name: getPlayerName(state),
+    };
+}
+
+export default connect(mapStateToProps)(withStyles(useStyles)(DashboardPanel));
