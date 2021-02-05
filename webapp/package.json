@@ -10,7 +10,9 @@
     "@material-ui/styles": "^4.11.3",
     "babel-loader": "^8.1.0",
     "react": "~16.13.1",
-    "react-dom": "~16.13.1"
+    "react-dom": "~16.13.1",
+    "react-redux": "~7.2.2",
+    "redux": "~4.0.5"
   },
   "eslintConfig": {
     "extends": [

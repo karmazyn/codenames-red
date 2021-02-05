@@ -5,6 +5,8 @@ import GridListTile from "@material-ui/core/GridListTile";
 import withStyles from "@material-ui/core/styles/withStyles";
 import ListSubheader from "@material-ui/core/ListSubheader";
 import {Typography} from "@material-ui/core";
+import { connect } from "react-redux";
+import { getBoardId, getBoardFields, getStartingPlayer } from "./redux/Selectors"
 
 const useStyles = theme => ({
     root: {
@@ -32,34 +34,10 @@ const useStyles = theme => ({
 
 class Board extends Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            boardId: "",
-            fields: [],
-            starts: ""
-        }
-    }
-
-    componentDidMount() {
-        const url = "/api/boards"
-        fetch(url, {
-            method: "POST"
-        })
-            .then((result) => result.json())
-            .then((result) => {
-                this.setState({
-                    boardId: result.id,
-                    fields: result.fields,
-                    starts: result.starts
-                })
-            })
-    }
-
     render() {
         const {classes} = this.props;
+        const {boardId, fields, starts} = this.props
 
-        const {boardId, fields, starts} = this.state
         return (
             <GridList className={classes.gridList} spacing={5} cols={5}>
                 <GridListTile key="Subheader" className={classes.subheader} cols={5}>
@@ -78,4 +56,12 @@ class Board extends Component {
     }
 }
 
-export default withStyles(useStyles)(Board);
+const mapStateToProps = state => {
+    return {
+        boardId: getBoardId(state),
+        fields: getBoardFields(state),
+        starts: getStartingPlayer(state),
+    };
+}
+
+export default connect(mapStateToProps)(withStyles(useStyles)(Board));
