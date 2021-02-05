@@ -1,4 +1,4 @@
-import {INIT_BOARD, UPDATE_ON_CLICK} from "../ActionTypes";
+import {INIT_BOARD, UPDATE_BOARD} from "../ActionTypes";
 
 const initialState = {
     boardId: "N/A",
@@ -16,7 +16,7 @@ export default function(state = initialState, action) {
             };
         }
 
-        case UPDATE_ON_CLICK: {
+        case UPDATE_BOARD: {
             return {
                 ...state,
                 fields: action.payload.fields
