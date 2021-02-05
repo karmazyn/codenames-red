@@ -76,7 +76,7 @@ class CodenameCard extends Component {
             boardId: boardId,
             cardIndex: index
         }
-        fetch("/click", {
+        fetch("/api/boards/clicks", {
             method: "POST",
             body: JSON.stringify(data)
         })
