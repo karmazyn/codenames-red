@@ -17,6 +17,5 @@ module.exports = Object.assign({}, commonConfig, {
                 prependPath: false
             },
         },
-        publicPath: "http://localhost:9090"
     }
 });
