@@ -5,16 +5,15 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import {Mood} from "@material-ui/icons";
 import ListItemText from "@material-ui/core/ListItemText";
-import {getBoardFields, getBoardId, getStartingPlayer} from "./redux/Selectors";
-import connect from "react-redux/lib/connect/connect";
+import {getTeamPlayers} from "./redux/Selectors";
 import {loadPlayers} from "./redux/Actions";
+import {connect} from "react-redux";
+import {Divider, Typography} from "@material-ui/core";
+import Grid from "@material-ui/core/Grid";
 
 const useStyles = theme => ({
-    root: {
-        display: 'flex',
-        flexWrap: 'nowrap',
-        justifyContent: 'space-around',
-        overflow: 'hidden',
+    teamGrid: {
+        marginBottom: "5em"
     }
 });
 
@@ -22,9 +21,6 @@ class TeamPanel extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            players: []
-        }
     }
 
     componentDidMount() {
@@ -42,38 +38,51 @@ class TeamPanel extends Component {
 
     render() {
         const {classes} = this.props;
-        const {players} = this.props
+        const {red, blue} = this.props
         return (
-            <List component="nav" aria-label="teams">
-                {/*{ players.map((player) => (*/}
-                {/*selected={player.role === 'CAPTAIN'}*/}
-                <ListItem>
-                    <ListItemIcon>
-                        <Mood/>
-                    </ListItemIcon>
-                    <ListItemText primary="hello"/>
-
-                </ListItem>
-                {/*))}*/}
-            </List>
+            <Grid container direction={"column"} xs={12} margin="">
+                <Grid item xs={12} className={classes.teamGrid}>
+                    <Typography variant={"h4"}>RED</Typography>
+                    <Divider/>
+                    <List component="nav" aria-label="teams">
+                        {red.map(player => (
+                            <ListItem selected={player.role === 'captain'}>
+                                <ListItemIcon>
+                                    <Mood/>
+                                </ListItemIcon>
+                                <ListItemText>
+                                    {player.name}
+                                </ListItemText>
+                            </ListItem>
+                        ))}
+                    </List>
+                </Grid>
+                <Grid item xs={12}>
+                    <Typography variant={"h4"}>BLUE</Typography>
+                    <Divider/>
+                    <List component="nav" aria-label="teams">
+                        {blue.map( player => (
+                            <ListItem selected={player.role === 'captain'}>
+                                <ListItemIcon>
+                                    <Mood/>
+                                </ListItemIcon>
+                                <ListItemText>
+                                    {player.name}
+                                </ListItemText>
+                            </ListItem>
+                        ))}
+                    </List>
+                </Grid>
+            </Grid>
         );
     }
 }
 
-/*data class Player(val name: String, val team: Team?, val role: Role)
-
-enum class Team {
-    RED, BLUE, NONE
-}
-
-enum class Role {
-    CAPTAIN, GUESSER, SPECTATOR
-}*/
 const mapStateToProps = state => {
     return {
-        boardId: getBoardId(state),
-        fields: getBoardFields(state),
-        starts: getStartingPlayer(state),
+        red: getTeamPlayers(state, "red"),
+        blue: getTeamPlayers(state, "blue"),
+        unassigned: getTeamPlayers(state, "unassigned")
     };
 }
 

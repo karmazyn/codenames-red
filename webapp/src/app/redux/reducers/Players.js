@@ -1,15 +1,8 @@
-import {MOVE_PLAYER} from "../ActionTypes";
+import {LOAD_PLAYERS, MOVE_PLAYER} from "../ActionTypes";
 import Player from "../../Player";
 
 const initialState = {
-    players: {
-        "Piotrek": new Player("Piotrek", "red"),
-        "Dawid": new Player("Dawid", "red"),
-        "Gosia": new Player("Gosia", "blue"),
-        "Marcin": new Player("Marcin", "blue"),
-        "Mariusz": new Player("Mariusz", "unassigned"),
-        "Grzesiek": new Player("Grzesiek", "unassigned")
-    }
+    players: {}
 };
 
 function nextTeam(currentTeam, direction) {
@@ -44,6 +37,19 @@ export default function(state = initialState, action) {
             let playerToInsert = new Player(player.name, nextTeam(player.team, action.payload.direction))
             return {
                 players: {...state.players, [action.payload.playerName]: playerToInsert}
+            }
+
+        case LOAD_PLAYERS:
+            let players = action.payload.players
+            let mapTeam = (team) => {
+                return team === "NONE" ? "unassigned" : team.toLowerCase()
+            }
+
+            return {
+                players: Object.assign({}, ...players.map(
+                    player => ({[player.name]: new Player(player.name, mapTeam(player.team), player.role.toLowerCase())})
+                    )
+                )
             }
 
         default:
