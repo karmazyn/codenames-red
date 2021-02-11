@@ -11,7 +11,12 @@ class PlayerRepository {
 
     private val players = ConcurrentHashMap<String, Player>()
 
-    fun listPlayers(): List<Player> = players.values.toList()
+    fun listPlayers(): List<Player> = listOf(
+            Player("Gosia", Team.RED, Role.GUESSER),
+             Player("Kasia", Team.RED, Role.CAPTAIN),
+             Player("Kacper", Team.BLUE, Role.CAPTAIN),
+             Player("Matysia", Team.BLUE, Role.GUESSER)
+    )
 
     fun getPlayer(name: String): Player? = players[name]
 

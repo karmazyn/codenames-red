@@ -15,8 +15,7 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/api/players")
 class PlayerController(private val playerService: PlayerService) {
 
-
-    @GetMapping
+    @GetMapping(produces = ["application/json"])
     fun getAllPlayers(): List<Player> = playerService.listPlayers()
 
     @GetMapping("/{name}")

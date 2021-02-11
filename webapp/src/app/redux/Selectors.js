@@ -6,4 +6,8 @@ export const getStartingPlayer = store => store.board.starts;
 
 export const getPlayers = store => store.players.players;
 
+export const getTeamPlayers = (store, team) => Object.entries(getPlayers(store))
+    .map(([name, player]) => player)
+    .filter(player => player.team === team)
+
 export const getPlayerName = store => store.playerInfo.name;

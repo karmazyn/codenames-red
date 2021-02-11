@@ -6,11 +6,13 @@ import Container from "@material-ui/core/Container";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import DashboardPanel from "./DashboardPanel";
 import TeamChooser from "./TeamChooser";
+import Grid from "@material-ui/core/Grid";
+import TeamPanel from "./TeamPanel";
 
-import {Provider} from "react-redux";
+import {connect, Provider} from "react-redux";
 import store from "./redux/Store";
-import { connect } from "react-redux";
-import { initBoard, updateBoard } from "./redux/Actions";
+
+import {initBoard, updateBoard} from "./redux/Actions";
 import {getBoardId} from "./redux/Selectors";
 import { CookiesProvider } from 'react-cookie';
 
@@ -49,7 +51,14 @@ class App extends Component {
                 <CssBaseline/>
                 <DashboardPanel/>
                 <Container id="main" className={"App"} maxWidth="md">
-                    <Board/>
+                    <Grid container spacing={3}>
+                        <Grid item xs={2}>
+                            <TeamPanel/>
+                        </Grid>
+                        <Grid item xs={10}>
+                            <Board/>
+                        </Grid>
+                    </Grid>
                 </Container>
                 {/*<TeamChooser />*/}
             </React.Fragment>
