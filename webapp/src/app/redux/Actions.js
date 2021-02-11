@@ -1,4 +1,4 @@
-import { INIT_BOARD, UPDATE_BOARD, ASSIGN_PLAYER_NAME, MOVE_PLAYER} from "./ActionTypes";
+import {INIT_BOARD, UPDATE_BOARD, ASSIGN_PLAYER_NAME, MOVE_PLAYER, LOAD_PLAYERS} from "./ActionTypes";
 
 export const initBoard = ({boardId, fields, starts}) => ({
     type: INIT_BOARD,
@@ -27,4 +27,11 @@ export const assignPlayerName = ({name}) => ({
     payload: {
         name
     }
+})
+
+export const loadPlayers = ({players}) => ({
+    type: LOAD_PLAYERS,
+    payload: {
+        players
+    },
 })
