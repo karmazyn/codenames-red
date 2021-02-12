@@ -4,6 +4,8 @@ import {connect} from "react-redux";
 import {getBoardFields, getBoardId, getStartingPlayer} from "./redux/Selectors";
 import DashboardPanel from "./DashboardPanel";
 import {loadPlayers} from "./redux/Actions";
+import PlayerInput from "./PlayerInput";
+import CssBaseline from "@material-ui/core/CssBaseline";
 
 class Lobby extends Component {
 
@@ -33,7 +35,9 @@ class Lobby extends Component {
     render() {
         return (
             <React.Fragment>
+                <CssBaseline/>
                 <DashboardPanel/>
+                <PlayerInput />
                 <TeamChooser/>
             </React.Fragment>
         );

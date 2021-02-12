@@ -62,7 +62,6 @@ class Game extends Component {
                         </Grid>
                     </Grid>
                 </Container>
-                {/*<TeamChooser />*/}
             </React.Fragment>
         );
     }
