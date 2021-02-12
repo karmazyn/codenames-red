@@ -5,7 +5,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Paper from '@material-ui/core/Paper';
-import {IconButton} from "@material-ui/core";
+import {IconButton, ListSubheader} from "@material-ui/core";
 import {ArrowLeftOutlined, ArrowRightOutlined} from "@material-ui/icons";
 import {connect} from "react-redux";
 import {getPlayers} from "./redux/Selectors";
@@ -40,6 +40,9 @@ const useStyles = makeStyles((theme) => ({
     unassigned: {
         height: 500,
         width: 200
+    },
+    title: {
+        textAlign: "center"
     }
 }));
 
@@ -49,7 +52,7 @@ const TeamChooser = ({players, movePlayer}) => {
 
     const red = Object.values(players).filter(player => player.team === Teams.RED.name);
     const blue = Object.values(players).filter(player => player.team === Teams.BLUE.name);
-    const unassigned = Object.values(players).filter(player => player.team === Teams.NONE.name);
+    const none = Object.values(players).filter(player => player.team === Teams.NONE.name);
 
     function handleButtonLeft(playerName) {
         movePlayer({"playerName": playerName, "direction": "left"})
@@ -59,8 +62,9 @@ const TeamChooser = ({players, movePlayer}) => {
         movePlayer({"playerName": playerName, "direction": "right"})
     }
 
-    const customList = (items, className) => (
+    const customList = (teamName, items, className) => (
         <Paper classes={classes.paper}>
+            <ListSubheader className={classes.title}>{teamName}</ListSubheader>
             <List dense component="div" role="list" className={className}>
                 {items.map((player) => {
                     const labelId = `transfer-list-item-${player.name}-label`;
@@ -84,9 +88,9 @@ const TeamChooser = ({players, movePlayer}) => {
 
     return (
         <Grid container spacing={2} justify="center" alignItems="center" className={classes.root}>
-            <Grid item>{customList(red, classes.red)}</Grid>
-            <Grid item>{customList(unassigned, classes.unassigned)}</Grid>
-            <Grid item>{customList(blue, classes.blue)}</Grid>
+            <Grid item>{customList("RED", red, classes.red)}</Grid>
+            <Grid item>{customList("NONE", none, classes.unassigned)}</Grid>
+            <Grid item>{customList("BLUE", blue, classes.blue)}</Grid>
         </Grid>
     );
 }

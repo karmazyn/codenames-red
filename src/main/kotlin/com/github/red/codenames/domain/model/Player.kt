@@ -7,7 +7,7 @@ enum class Team {
 }
 
 enum class Role {
-    CAPTAIN, GUESSER, SPECTATOR;
+    CAPTAIN, GUESSER;
 
     fun isRole(role: String?) = toString().equals(role, ignoreCase = true)
 }

@@ -16,10 +16,23 @@ class PlayerRepository {
     fun getPlayer(name: String): Player? = players[name]
 
     fun addPlayer(name: String): Player? {
-        val player = Player(name, Team.NONE, Role.SPECTATOR)
+        val player = Player(name, Team.NONE, Role.GUESSER)
         val wasAdded = players.putIfAbsent(name, player) == null
         return if (wasAdded) player else null
     }
 
+    fun updatePlayer(name: String, team: Team): Player {
+        val player: Player = players[name] ?: throw UnknownPlayerException()
+        val updatedPlayer = Player(name, team, player.role)
+
+        players[name] = updatedPlayer
+
+        return updatedPlayer
+    }
+
     fun clearPlayers() = players.clear()
+}
+
+class UnknownPlayerException : RuntimeException() {
+
 }
