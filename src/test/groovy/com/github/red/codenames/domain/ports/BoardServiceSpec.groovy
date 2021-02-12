@@ -31,8 +31,8 @@ class BoardServiceSpec extends Specification {
         assert ((numberOfCards(board, Type.RED) == 9 && numberOfCards(board, Type.BLUE) == 8)
                 || (numberOfCards(board, Type.RED) == 8 && numberOfCards(board, Type.BLUE) == 9))
 
-        assert ((board.starts == Team.RED && numberOfCards(board, Type.RED) == 9) ||
-                (board.starts == Team.BLUE && numberOfCards(board, Type.BLUE) == 9))
+        assert ((board.guessingTeam == Team.RED && numberOfCards(board, Type.RED) == 9) ||
+                (board.guessingTeam == Team.BLUE && numberOfCards(board, Type.BLUE) == 9))
     }
 
     private static int numberOfCards(Board board, Type type) {

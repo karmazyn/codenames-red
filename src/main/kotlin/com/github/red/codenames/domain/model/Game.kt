@@ -32,7 +32,7 @@ data class Field(
 data class Board(
     val id: String,
     val fields: List<Field>,
-    val starts: Team,
+    val guessingTeam: Team,
     val height: Int = 5,
     val width: Int = 5
 )

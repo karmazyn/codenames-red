@@ -6,7 +6,7 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import ListSubheader from "@material-ui/core/ListSubheader";
 import {Typography} from "@material-ui/core";
 import { connect } from "react-redux";
-import { getBoardId, getBoardFields, getStartingPlayer } from "./redux/Selectors"
+import { getBoardId, getBoardFields, getGuessingTeam } from "./redux/Selectors"
 
 const useStyles = theme => ({
     root: {
@@ -33,13 +33,13 @@ const useStyles = theme => ({
 class Board extends Component {
     render() {
         const {classes} = this.props;
-        const {boardId, fields, starts} = this.props
+        const {boardId, fields, guessingTeam} = this.props
 
         return (
             <GridList className={classes.gridList} spacing={5} cols={5}>
                 <GridListTile key="Subheader" className={classes.subheader} cols={5}>
                     <ListSubheader disableGutters disableSticky component="div">
-                        <Typography variant={"h3"}>Zaczynają {starts}!</Typography>
+                        <Typography variant={"h3"}>Kto teraz: {guessingTeam}!</Typography>
                         <Typography variant={"overline"}>id#{boardId}</Typography>
                     </ListSubheader>
                 </GridListTile>
@@ -60,7 +60,7 @@ const mapStateToProps = state => {
     return {
         boardId: getBoardId(state),
         fields: getBoardFields(state),
-        starts: getStartingPlayer(state),
+        guessingTeam: getGuessingTeam(state),
     };
 }
 

@@ -15,7 +15,5 @@ class BoardRepository {
     fun findAll(): List<Board> = boards.values.toList()
 
     fun update(board: Board): Board? =
-        if (boards.containsKey(board.id))
-            boards.put(board.id, board)?.let { board }
-        else null
+        boards.computeIfPresent(board.id) { _, _ -> board }
 }

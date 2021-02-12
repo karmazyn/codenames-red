@@ -50,7 +50,7 @@ class BoardController(private val boardService: BoardService,
             },
             numberOfRed = board.fields.filter { it.type == RED && !it.clicked }.size,
             numberOfBlue = board.fields.filter { it.type == BLUE && !it.clicked}.size,
-            starts = board.starts,
+            guessingTeam = board.guessingTeam,
             height = board.height,
             width = board.width,
         )
@@ -71,7 +71,7 @@ data class BoardResponse(
     val numberOfRed: Int,
     val numberOfBlue: Int,
     val fields: List<FieldResponse>,
-    val starts: Team,
+    val guessingTeam: Team,
     val height: Int,
     val width: Int
 )

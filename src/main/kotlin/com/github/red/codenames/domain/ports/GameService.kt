@@ -76,4 +76,10 @@ class GameService(
                 } else gameInstance
             }
         }
+
+    fun endTurn(gameId: String): GameInstance? =
+        gameRepository.getGame(gameId)?.let {
+            boardService.endTurn(it.boardId!!)
+            it
+        }
 }

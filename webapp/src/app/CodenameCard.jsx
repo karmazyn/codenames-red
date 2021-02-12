@@ -88,7 +88,7 @@ class CodenameCard extends Component {
                     fields: result.board.fields,
                     numberOfRed: result.board.numberOfRed,
                     numberOfBlue: result.board.numberOfBlue,
-                    starts: result.board.starts,
+                    guessingTeam: result.board.guessingTeam,
                 })
             })
     }

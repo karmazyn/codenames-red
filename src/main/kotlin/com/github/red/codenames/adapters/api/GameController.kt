@@ -18,7 +18,7 @@ class GameController(private val gameService: GameService) {
     fun getGame(@PathVariable id: String): ResponseEntity<GameInstance> =
         gameService.getGame(id)?.let {
             ResponseEntity.ok(it)
-        } ?: ResponseEntity(HttpStatus.BAD_REQUEST)
+        } ?: ResponseEntity(HttpStatus.NOT_FOUND)
 
     @PostMapping
     fun createGame(@CookieValue("name") playerName: String): GameInstance =
@@ -28,17 +28,23 @@ class GameController(private val gameService: GameService) {
     fun startGame(@PathVariable id: String): ResponseEntity<GameInstance> =
         gameService.startGame(id)?.let {
             ResponseEntity.ok(it)
-        } ?: ResponseEntity(HttpStatus.BAD_REQUEST)
+        } ?: ResponseEntity(HttpStatus.NOT_FOUND)
 
     @PostMapping("/{id}/restart")
     fun restartGame(@PathVariable id: String): ResponseEntity<GameInstance> =
         gameService.restartGame(id)?.let {
             ResponseEntity.ok(it)
-        } ?: ResponseEntity(HttpStatus.BAD_REQUEST)
+        } ?: ResponseEntity(HttpStatus.NOT_FOUND)
 
     @PostMapping("/{id}/backToLobby")
     fun backToLobby(@PathVariable id: String): ResponseEntity<GameInstance> =
         gameService.backToLobby(id)?.let {
             ResponseEntity.ok(it)
-        } ?: ResponseEntity(HttpStatus.BAD_REQUEST)
+        } ?: ResponseEntity(HttpStatus.NOT_FOUND)
+
+    @PostMapping("/{id}/endTurn")
+    fun endTurn(@PathVariable id: String): ResponseEntity<GameInstance> =
+        gameService.endTurn(id)?.let {
+            ResponseEntity.ok(it)
+        } ?: ResponseEntity(HttpStatus.NOT_FOUND)
 }

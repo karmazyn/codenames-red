@@ -43,25 +43,31 @@ class BoardService(private val cardRepository: CardRepository,
             if (card.clicked) BoardClickResult(it, null)
             else {
                 val clickedCard = card.copy(clicked = true)
-                val winner = when (clickedCard.type) {
-                    Type.ASSASIN -> otherTeam(it.starts)
-                    Type.PASSERBY -> null
-                    Type.RED -> if (allSolved(it, Type.RED)) Team.RED else null
-                    Type.BLUE -> if (allSolved(it, Type.BLUE)) Team.BLUE else null
-                }
                 val nextStarts = when (clickedCard.type) {
-                    Type.PASSERBY -> otherTeam(it.starts)
-                    Type.RED -> if (it.starts == Team.RED) it.starts else otherTeam(it.starts)
-                    Type.BLUE -> if (it.starts == Team.BLUE) it.starts else otherTeam(it.starts)
+                    Type.PASSERBY -> otherTeam(it.guessingTeam)
+                    Type.RED -> if (it.guessingTeam == Team.RED) it.guessingTeam else otherTeam(it.guessingTeam)
+                    Type.BLUE -> if (it.guessingTeam == Team.BLUE) it.guessingTeam else otherTeam(it.guessingTeam)
                     Type.ASSASIN -> Team.NONE
                 }
-
                 val newBoard = it.copy(
                     fields = it.fields.mapIndexed { i, f -> if (i == cardId) clickedCard else f },
-                    starts = nextStarts
+                    guessingTeam = nextStarts
                 )
+
+                val winner = when (clickedCard.type) {
+                    Type.ASSASIN -> otherTeam(it.guessingTeam)
+                    Type.PASSERBY -> null
+                    Type.RED -> if (allSolved(newBoard, Type.RED)) Team.RED else null
+                    Type.BLUE -> if (allSolved(newBoard, Type.BLUE)) Team.BLUE else null
+                }
+
                 BoardClickResult(boardRepository.update(newBoard)!!, winner)
             }
+        }
+
+    fun endTurn(boardId: String): Board? =
+        getBoard(boardId)?.let {
+            boardRepository.update(it.copy(guessingTeam = otherTeam(it.guessingTeam)))
         }
 
     private fun selectSide(card: Card) = if (Random.nextBoolean()) card.rightSide else card.leftSide
