@@ -21,7 +21,6 @@ class Lobby extends Component {
     }
 
     updatePlayersScheduledAsync() {
-        console.log("UPDATEPLAYERS")
         let intervalId = setInterval(() => {
             clearInterval(intervalId);
             fetch("/api/players")

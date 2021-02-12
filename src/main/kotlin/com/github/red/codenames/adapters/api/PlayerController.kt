@@ -6,7 +6,6 @@ import com.github.red.codenames.domain.ports.PlayerService
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType.APPLICATION_JSON_VALUE
-import org.springframework.http.MediaType.TEXT_PLAIN_VALUE
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -26,9 +25,9 @@ class PlayerController(private val playerService: PlayerService) {
     @GetMapping("/{name}")
     fun getPlayer(@PathVariable("name") name: String): Player? = playerService.getPlayer(name)
 
-    @PutMapping("/{name}", consumes = [TEXT_PLAIN_VALUE], produces = [APPLICATION_JSON_VALUE])
-    fun updatePlayer(@PathVariable("name") name: String, @RequestBody team: String): Player? =
-        playerService.updatePlayer(name, Team.valueOf(team))
+    @PutMapping("/{name}", consumes = [APPLICATION_JSON_VALUE], produces = [APPLICATION_JSON_VALUE])
+    fun updatePlayer(@PathVariable("name") name: String, @RequestBody request: PlayerUpdateRequest): Player? =
+        playerService.updatePlayer(name, request.team)
 
     @PostMapping("/{name}")
     fun addPlayer(@PathVariable("name") name: String): ResponseEntity<List<Player>> =
@@ -41,3 +40,5 @@ class PlayerController(private val playerService: PlayerService) {
                 ResponseEntity(playerService.listPlayers(), headers, HttpStatus.CREATED)
             } ?: ResponseEntity(HttpStatus.CONFLICT)
 }
+
+data class PlayerUpdateRequest(val team: Team)

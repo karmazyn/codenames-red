@@ -26,9 +26,9 @@ export default function(state = initialState, action) {
 
             fetch("/api/players/" + player.name, {
                 method: "PUT",
-                body: dstTeam,
+                body: JSON.stringify({team: dstTeam}),
                 headers: {
-                    'Content-Type': 'text/plain'
+                    'Content-Type': 'application/json'
                 }
             }).then(r => console.log("Move Player status " + r.status))
 
