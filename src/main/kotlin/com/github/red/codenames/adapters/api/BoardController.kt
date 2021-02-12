@@ -1,37 +1,41 @@
 package com.github.red.codenames.adapters.api
 
 import com.github.red.codenames.domain.model.Board
+import com.github.red.codenames.domain.model.GameInstance
 import com.github.red.codenames.domain.model.Role.CAPTAIN
 import com.github.red.codenames.domain.model.Team
 import com.github.red.codenames.domain.model.Type
-import com.github.red.codenames.domain.model.Type.*
+import com.github.red.codenames.domain.model.Type.BLUE
+import com.github.red.codenames.domain.model.Type.RED
 import com.github.red.codenames.domain.ports.BoardService
+import com.github.red.codenames.domain.ports.GameService
+import org.springframework.web.bind.annotation.CookieValue
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
-import org.springframework.web.bind.annotation.CookieValue
 
 @RestController
 @RequestMapping("/api/boards")
-class BoardController(private val boardService: BoardService) {
+class BoardController(private val boardService: BoardService,
+                      private val gameService: GameService) {
     @GetMapping("/{id}")
     fun getBoard(@PathVariable id: String,
                  @CookieValue("role", required = false) role: String?): BoardResponse? =
             boardService.getBoard(id.toLowerCase())?.let { mapBoardForPlayer(it, CAPTAIN.isRole(role)) }
 
-    @GetMapping
-    fun getAllBoards(): List<BoardResponse> = boardService.listBoards().map { mapBoardForPlayer(it) }
-
-    @PostMapping
-    fun createBoard(): BoardResponse = mapBoardForPlayer(boardService.generateBoard())
-
-    @PostMapping("/clicks", consumes = ["application/json"])
-    fun clicks(@RequestBody request: ClickRequest,
-               @CookieValue("role", required = false) role: String?): BoardResponse =
-        mapBoardForPlayer(boardService.clickCard(request.boardId, request.cardIndex), CAPTAIN.isRole(role))
+    @PostMapping("/{id}/click", consumes = ["application/json"])
+    fun click(@RequestBody request: ClickRequest,
+              @PathVariable id: String,
+              @CookieValue("role", required = false) role: String?): BoardClickResponse? =
+        gameService.clickOnBoard(id, request.cardIndex)?.let {
+            BoardClickResponse(
+                mapBoardForPlayer(boardService.getBoard(it.boardId!!)!!, CAPTAIN.isRole(role)),
+                it
+            )
+        }
 
     private fun mapBoardForPlayer(board: Board, isCaptain: Boolean = true): BoardResponse =
         BoardResponse(
@@ -53,7 +57,6 @@ class BoardController(private val boardService: BoardService) {
 }
 
 data class ClickRequest(
-    val boardId: String,
     val cardIndex: Int
 )
 
@@ -71,4 +74,9 @@ data class BoardResponse(
     val starts: Team,
     val height: Int,
     val width: Int
+)
+
+data class BoardClickResponse(
+    val board: BoardResponse,
+    val game: GameInstance
 )

@@ -29,4 +29,16 @@ class GameController(private val gameService: GameService) {
         gameService.startGame(id)?.let {
             ResponseEntity.ok(it)
         } ?: ResponseEntity(HttpStatus.BAD_REQUEST)
+
+    @PostMapping("/{id}/restart")
+    fun restartGame(@PathVariable id: String): ResponseEntity<GameInstance> =
+        gameService.restartGame(id)?.let {
+            ResponseEntity.ok(it)
+        } ?: ResponseEntity(HttpStatus.BAD_REQUEST)
+
+    @PostMapping("/{id}/backToLobby")
+    fun backToLobby(@PathVariable id: String): ResponseEntity<GameInstance> =
+        gameService.backToLobby(id)?.let {
+            ResponseEntity.ok(it)
+        } ?: ResponseEntity(HttpStatus.BAD_REQUEST)
 }
