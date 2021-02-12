@@ -5,8 +5,8 @@ import '../css/App.css';
 import {Provider} from "react-redux";
 import store from "./redux/Store";
 
-import {CookiesProvider} from 'react-cookie';
-import {BrowserRouter, Route, Switch} from 'react-router-dom';
+import { CookiesProvider } from 'react-cookie';
+import { HashRouter , Route, Switch} from 'react-router-dom';
 import Lobby from "./Lobby";
 import Game from "./Game";
 
@@ -28,9 +28,9 @@ class App extends Component {
 ReactDOM.render(
     <CookiesProvider>
         <Provider store={store}>
-            <BrowserRouter>
+            <HashRouter>
                 <App/>
-            </BrowserRouter>
+            </HashRouter>
         </Provider>
     </CookiesProvider>,
     document.getElementById('root')
