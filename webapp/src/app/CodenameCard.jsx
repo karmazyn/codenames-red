@@ -87,7 +87,8 @@ class CodenameCard extends Component {
                 this.props.updateBoardOnClick({
                     fields: result.board.fields,
                     numberOfRed: result.board.numberOfRed,
-                    numberOfBlue: result.board.numberOfBlue
+                    numberOfBlue: result.board.numberOfBlue,
+                    starts: result.board.starts,
                 })
             })
     }

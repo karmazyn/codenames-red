@@ -25,7 +25,8 @@ export default function(state = initialState, action) {
                 ...state,
                 numberOfRed: action.payload.numberOfRed,
                 numberOfBlue: action.payload.numberOfBlue,
-                fields: action.payload.fields
+                fields: action.payload.fields,
+                starts: action.payload.starts,
             };
         }
 
