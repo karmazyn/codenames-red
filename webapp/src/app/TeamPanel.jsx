@@ -12,6 +12,7 @@ import {Divider, Typography} from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import {CardCounter} from "./CardCounter";
 import {getNumberOfBlueCards, getNumberOfRedCards} from "./redux/Selectors";
+import {Teams} from "./Player";
 
 const useStyles = theme => ({
     teamGrid: {
@@ -98,9 +99,9 @@ class TeamPanel extends Component {
 
 const mapStateToProps = state => {
     return {
-        red: getTeamPlayers(state, "red"),
-        blue: getTeamPlayers(state, "blue"),
-        unassigned: getTeamPlayers(state, "unassigned")
+        red: getTeamPlayers(state, Teams.RED.name),
+        blue: getTeamPlayers(state, Teams.BLUE.name),
+        unassigned: getTeamPlayers(state, Teams.NONE.name)
     };
 }
 
