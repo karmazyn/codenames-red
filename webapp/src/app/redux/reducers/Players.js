@@ -1,6 +1,5 @@
 import {LOAD_PLAYERS, MOVE_PLAYER} from "../ActionTypes";
-import Player from "../../Player";
-import {Teams} from "../../Player"
+import Player, {Teams} from "../../Player";
 
 const initialState = {
     players: {}
@@ -22,7 +21,18 @@ export default function(state = initialState, action) {
         case MOVE_PLAYER:
             let player = state.players[action.payload.playerName]
 
-            let playerToInsert = new Player(player.name, nextTeam(player.team, action.payload.direction))
+            let dstTeam = nextTeam(player.team, action.payload.direction);
+            let playerToInsert = new Player(player.name, dstTeam)
+
+            fetch("/api/players/" + player.name, {
+                method: "PUT",
+                body: JSON.stringify({team: dstTeam}),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then(r => console.log("Move Player status " + r.status))
+
+
             return {
                 players: {...state.players, [action.payload.playerName]: playerToInsert}
             }
