@@ -36,7 +36,7 @@ class PlayerInput extends Component {
                 this.setState({error: true})
             }
         }).catch((error) => {
-            this.setState({error: false})
+            this.setState({error: true})
         })
         event.preventDefault();
     }
