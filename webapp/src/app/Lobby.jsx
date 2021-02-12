@@ -1,9 +1,12 @@
 import React, {Component} from "react";
 import TeamChooser from "./TeamChooser";
 import {connect} from "react-redux";
-import {getBoardFields, getBoardId, getStartingPlayer} from "./redux/Selectors";
+import {getBoardFields, getBoardId, getGuessingTeam} from "./redux/Selectors";
 import DashboardPanel from "./DashboardPanel";
 import {loadPlayers} from "./redux/Actions";
+import {Link} from "react-router-dom";
+import {Button} from "@material-ui/core";
+import CssBaseline from "@material-ui/core/CssBaseline";
 
 class Lobby extends Component {
 
@@ -33,8 +36,14 @@ class Lobby extends Component {
     render() {
         return (
             <React.Fragment>
+                <CssBaseline/>
                 <DashboardPanel/>
                 <TeamChooser/>
+                <div style={{textAlign: "center"}}>
+                    <Link to="/game">
+                        <Button>Create new game</Button>
+                    </Link>
+                </div>
             </React.Fragment>
         );
     }
@@ -44,7 +53,7 @@ const mapStateToProps = state => {
     return {
         boardId: getBoardId(state),
         fields: getBoardFields(state),
-        starts: getStartingPlayer(state),
+        starts: getGuessingTeam(state),
     };
 }
 
