@@ -38,9 +38,11 @@ class PlayerControllerSpec extends Specification {
 
         then:
         response.status == 201
-        response.data.name == playerName
-        response.data.team == "NONE"
-        response.data.role == "SPECTATOR"
+        response.data.size() == 1
+        def player = response.data[0]
+        player.name == playerName
+        player.team == "NONE"
+        player.role == "SPECTATOR"
     }
 
     def "should not add player if one already exists"() {
