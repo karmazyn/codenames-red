@@ -86,7 +86,9 @@ class CodenameCard extends Component {
             .then((result) => result.json())
             .then((result) => {
                 this.props.updateBoardOnClick({
-                    fields: result.fields
+                    fields: result.fields,
+                    numberOfRed: result.numberOfRed,
+                    numberOfBlue: result.numberOfBlue
                 })
             })
     }

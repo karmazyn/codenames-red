@@ -14,6 +14,7 @@ import store from "./redux/Store";
 
 import {initBoard, updateBoard} from "./redux/Actions";
 import {getBoardId} from "./redux/Selectors";
+import {CardCounter} from "./CardCounter";
 import { CookiesProvider } from 'react-cookie';
 
 class App extends Component {
@@ -28,6 +29,8 @@ class App extends Component {
                     boardId: result.id,
                     fields: result.fields,
                     starts: result.starts,
+                    numberOfRed: result.numberOfRed,
+                    numberOfBlue: result.numberOfBlue
                 })
             })
             .then(() => {
