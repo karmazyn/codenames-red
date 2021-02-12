@@ -5,7 +5,6 @@ import Board from "./Board";
 import Container from "@material-ui/core/Container";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import DashboardPanel from "./DashboardPanel";
-import TeamChooser from "./TeamChooser";
 import Grid from "@material-ui/core/Grid";
 import TeamPanel from "./TeamPanel";
 
@@ -19,22 +18,29 @@ import { CookiesProvider } from 'react-cookie';
 
 class App extends Component {
     componentDidMount() {
-        const url = "/api/boards"
-        fetch(url, {
-            method: "POST"
-        })
-            .then((result) => result.json())
-            .then((result) => {
-                this.props.initBoard({
-                    boardId: result.id,
-                    fields: result.fields,
-                    starts: result.starts,
-                    numberOfRed: result.numberOfRed,
-                    numberOfBlue: result.numberOfBlue
-                })
-            })
-            .then(() => {
-                this.updateBoardStateScheduleAsync()
+        this.createNewGame();
+    }
+
+    createNewGame() {
+        fetch("/api/game", {method: "POST", credentials: "same-origin"})
+            .then(response => response.json())
+            .then(gameInstance => {
+                fetch(`/api/game/${gameInstance.id}/start`, {method: 'POST'})
+                    .then(response => response.json())
+                    .then(gameInstance => {
+                        fetch(`/api/boards/${gameInstance.boardId}`)
+                            .then(response => response.json())
+                            .then(board => {
+                                this.props.initBoard({
+                                    boardId: board.id,
+                                    fields: board.fields,
+                                    starts: board.starts,
+                                    numberOfRed: board.numberOfRed,
+                                    numberOfBlue: board.numberOfBlue
+                                });
+                            })
+                            .then(() => this.updateBoardStateScheduleAsync());
+                    })
             });
     }
 
