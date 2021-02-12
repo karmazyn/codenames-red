@@ -26,7 +26,8 @@ class PlayerController(private val playerService: PlayerService) {
         playerService.addPlayer(name)
             ?.let {
                 val headers = HttpHeaders()
-                headers.add("Set-Cookie", "name=${it.name}; Max-Age=3600; HttpOnly")
+                headers.add("Set-Cookie", "name=${it.name}; Max-Age=3600; Path=/")
+                headers.add("Set-Cookie", "role=${it.role}; Max-Age=3600; Path=/")
 
                 ResponseEntity(playerService.listPlayers(), headers, HttpStatus.CREATED)
             } ?: ResponseEntity(HttpStatus.CONFLICT)

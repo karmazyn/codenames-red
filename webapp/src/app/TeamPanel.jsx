@@ -10,6 +10,8 @@ import {loadPlayers} from "./redux/Actions";
 import {connect} from "react-redux";
 import {Divider, Typography} from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
+import {CardCounter} from "./CardCounter";
+import {getNumberOfBlueCards, getNumberOfRedCards} from "./redux/Selectors";
 
 const useStyles = theme => ({
     teamGrid: {
@@ -42,7 +44,7 @@ class TeamPanel extends Component {
         return (
             <Grid container direction={"column"} xs={12} margin="">
                 <Grid item xs={12} className={classes.teamGrid}>
-                    <Typography variant={"h4"}>RED</Typography>
+                    <Typography variant={"h4"}><CardCounter teamName={"RED"} getNumberOfCardsFunction={getNumberOfRedCards} /></Typography>
                     <Divider/>
                     <List component="nav" aria-label="teams">
                         {red.map(player => (
@@ -58,7 +60,7 @@ class TeamPanel extends Component {
                     </List>
                 </Grid>
                 <Grid item xs={12} className={classes.teamGrid}>
-                    <Typography variant={"h4"}>BLUE</Typography>
+                    <Typography variant={"h4"}><CardCounter teamName={"BLUE"} getNumberOfCardsFunction={getNumberOfBlueCards} /></Typography>
                     <Divider/>
                     <List component="nav" aria-label="teams">
                         {blue.map( player => (
