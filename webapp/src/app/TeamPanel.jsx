@@ -43,13 +43,13 @@ class TeamPanel extends Component {
         const {classes} = this.props;
         const {red, blue, unassigned} = this.props
         return (
-            <Grid container direction={"column"} xs={12} margin="">
+            <Grid container direction={"column"} margin="">
                 <Grid item xs={12} className={classes.teamGrid}>
                     <Typography variant={"h4"}><CardCounter teamName={"RED"} getNumberOfCardsFunction={getNumberOfRedCards} /></Typography>
                     <Divider/>
                     <List component="nav" aria-label="teams">
                         {red.map(player => (
-                            <ListItem selected={player.role === 'captain'}>
+                            <ListItem selected={player.role === 'captain'} key={player.name}>
                                 <ListItemIcon>
                                     <Mood/>
                                 </ListItemIcon>
@@ -65,7 +65,7 @@ class TeamPanel extends Component {
                     <Divider/>
                     <List component="nav" aria-label="teams">
                         {blue.map( player => (
-                            <ListItem selected={player.role === 'captain'}>
+                            <ListItem selected={player.role === 'captain'} key={player.name}>
                                 <ListItemIcon>
                                     <Mood/>
                                 </ListItemIcon>
@@ -81,7 +81,7 @@ class TeamPanel extends Component {
                     <Divider/>
                     <List component="nav" aria-label="teams">
                         {unassigned.map( player => (
-                            <ListItem>
+                            <ListItem key={player.name}>
                                 <ListItemIcon>
                                     <Mood/>
                                 </ListItemIcon>

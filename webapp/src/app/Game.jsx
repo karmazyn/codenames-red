@@ -52,7 +52,7 @@ class Game extends Component {
             <React.Fragment>
                 <CssBaseline/>
                 <DashboardPanel/>
-                <Container id="main" className={"Board"} maxWidth="large">
+                <Container id="main" className={"Board"} maxWidth="lg">
                     <Grid container spacing={3}>
                         <Grid item xs={2}>
                             <TeamPanel/>
