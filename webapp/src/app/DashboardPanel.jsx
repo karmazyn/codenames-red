@@ -7,6 +7,7 @@ import PlayerInput from "./PlayerInput";
 import PlayerInfo from "./PlayerInfo";
 import {getPlayerName} from "./redux/Selectors";
 import {connect} from "react-redux";
+import {Link} from "react-router-dom";
 
 const useStyles = theme => ({
     '@global': {
@@ -39,6 +40,9 @@ class DashboardPanel extends Component {
                     <Typography variant="h6" color="inherit" noWrap className={classes.toolbarTitle}>
                         Hackatajniacy
                     </Typography>
+                    <div style={{flexGrow: 10}}>
+                        <Link to="/lobby">Lobby</Link>
+                    </div>
                     <PlayerInfo name={this.props.name}/>
                     <PlayerInput />
                 </Toolbar>
