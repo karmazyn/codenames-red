@@ -26,9 +26,7 @@ const useStyles = theme => ({
     },
     gridListTile: {
         alignItems: 'stretch',
-        borderSpacing: 2,
-        maxHeight: 100,
-        maxWidth: 200
+        borderSpacing: 2
     },
 });
 
