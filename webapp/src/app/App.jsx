@@ -53,7 +53,7 @@ class App extends Component {
             <React.Fragment>
                 <CssBaseline/>
                 <DashboardPanel/>
-                <Container id="main" className={"App"} maxWidth="md">
+                <Container id="main" className={"App"} maxWidth="large">
                     <Grid container spacing={3}>
                         <Grid item xs={2}>
                             <TeamPanel/>

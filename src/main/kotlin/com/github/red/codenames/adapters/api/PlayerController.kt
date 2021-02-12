@@ -22,13 +22,13 @@ class PlayerController(private val playerService: PlayerService) {
     fun getPlayer(@PathVariable("name") name: String): Player? = playerService.getPlayer(name)
 
     @PostMapping("/{name}")
-    fun addPlayer(@PathVariable("name") name: String): ResponseEntity<Player> =
+    fun addPlayer(@PathVariable("name") name: String): ResponseEntity<List<Player>> =
         playerService.addPlayer(name)
             ?.let {
                 val headers = HttpHeaders()
                 headers.add("Set-Cookie", "name=${it.name}; Max-Age=3600; Path=/")
                 headers.add("Set-Cookie", "role=${it.role}; Max-Age=3600; Path=/")
 
-                ResponseEntity(it, headers, HttpStatus.CREATED)
+                ResponseEntity(playerService.listPlayers(), headers, HttpStatus.CREATED)
             } ?: ResponseEntity(HttpStatus.CONFLICT)
 }

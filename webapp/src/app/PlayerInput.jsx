@@ -3,9 +3,9 @@ import {InputAdornment} from "@material-ui/core";
 import {Input} from "@material-ui/core";
 import {PlusOne} from "@material-ui/icons";
 import withStyles from "@material-ui/core/styles/withStyles";
-import { connect } from "react-redux";
-import { getPlayerName } from "./redux/Selectors";
-import { assignPlayerName } from "./redux/Actions";
+import {connect} from "react-redux";
+import {getPlayerName} from "./redux/Selectors";
+import {assignPlayerName, loadPlayers} from "./redux/Actions";
 
 const useStyles = theme => ({
     login: {
@@ -25,13 +25,19 @@ class PlayerInput extends Component {
         fetch("/api/players/" + this.state.value, {
             method: "POST"
         }).then((result) => {
-                if(result.ok) {
-                    this.setState({error: false})
-                    this.props.assignPlayerName({name: this.state.value});
-                } else {
-                    this.setState({error: true})
-                }
-            })
+            if (result.ok) {
+                this.props.assignPlayerName({name: this.state.value});
+                result.json().then((players) => {
+                        this.props.loadPlayers({players: players});
+                    }
+                )
+                this.setState({error: false, value: ''})
+            } else {
+                this.setState({error: true})
+            }
+        }).catch((error) => {
+            this.setState({error: true})
+        })
         event.preventDefault();
     }
 
@@ -62,4 +68,4 @@ const mapStateToProps = state => {
     };
 }
 
-export default connect(mapStateToProps, { assignPlayerName })(withStyles(useStyles)(PlayerInput));
+export default connect(mapStateToProps, {assignPlayerName, loadPlayers})(withStyles(useStyles)(PlayerInput));
