@@ -73,10 +73,9 @@ class CodenameCard extends Component {
 
     handleClick(index, boardId) {
         const data = {
-            boardId: boardId,
             cardIndex: index
         }
-        fetch("/api/boards/clicks", {
+        fetch(`/api/boards/${boardId}/click`, {
             method: "POST",
             body: JSON.stringify(data),
             headers: {
@@ -86,9 +85,10 @@ class CodenameCard extends Component {
             .then((result) => result.json())
             .then((result) => {
                 this.props.updateBoardOnClick({
-                    fields: result.fields,
-                    numberOfRed: result.numberOfRed,
-                    numberOfBlue: result.numberOfBlue
+                    fields: result.board.fields,
+                    numberOfRed: result.board.numberOfRed,
+                    numberOfBlue: result.board.numberOfBlue,
+                    guessingTeam: result.board.guessingTeam,
                 })
             })
     }

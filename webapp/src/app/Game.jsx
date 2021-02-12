@@ -27,7 +27,7 @@ class Game extends Component {
                                 this.props.initBoard({
                                     boardId: board.id,
                                     fields: board.fields,
-                                    starts: board.starts,
+                                    guessingTeam: board.guessingTeam,
                                     numberOfRed: board.numberOfRed,
                                     numberOfBlue: board.numberOfBlue
                                 });

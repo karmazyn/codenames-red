@@ -37,17 +37,46 @@ class BoardService(private val cardRepository: CardRepository,
         return boardRepository.save(board)
     }
 
-    fun listBoards(): List<Board> = boardRepository.findAll()
-
-    fun clickCard(boardId: String, cardId: Int): Board {
+    fun clickCard(boardId: String, cardId: Int): BoardClickResult? =
         getBoard(boardId)?.let {
-            it.fields[cardId] = it.fields[cardId].copy(clicked = true);
-            boardRepository.save(it)
+            val card = it.fields[cardId]
+            if (card.clicked) BoardClickResult(it, null)
+            else {
+                val clickedCard = card.copy(clicked = true)
+                val nextStarts = when (clickedCard.type) {
+                    Type.PASSERBY -> otherTeam(it.guessingTeam)
+                    Type.RED -> if (it.guessingTeam == Team.RED) it.guessingTeam else otherTeam(it.guessingTeam)
+                    Type.BLUE -> if (it.guessingTeam == Team.BLUE) it.guessingTeam else otherTeam(it.guessingTeam)
+                    Type.ASSASIN -> Team.NONE
+                }
+                val newBoard = it.copy(
+                    fields = it.fields.mapIndexed { i, f -> if (i == cardId) clickedCard else f },
+                    guessingTeam = nextStarts
+                )
+
+                val winner = when (clickedCard.type) {
+                    Type.ASSASIN -> otherTeam(it.guessingTeam)
+                    Type.PASSERBY -> null
+                    Type.RED -> if (allSolved(newBoard, Type.RED)) Team.RED else null
+                    Type.BLUE -> if (allSolved(newBoard, Type.BLUE)) Team.BLUE else null
+                }
+
+                BoardClickResult(boardRepository.update(newBoard)!!, winner)
+            }
         }
-        return getBoard(boardId)!!
-    }
+
+    fun endTurn(boardId: String): Board? =
+        getBoard(boardId)?.let {
+            boardRepository.update(it.copy(guessingTeam = otherTeam(it.guessingTeam)))
+        }
 
     private fun selectSide(card: Card) = if (Random.nextBoolean()) card.rightSide else card.leftSide
+
+    private fun otherTeam(team: Team) =
+        if (team == Team.RED) Team.BLUE else Team.RED
+
+    private fun allSolved(board: Board, type: Type) =
+        board.fields.filter { it.type == type }.all { it.clicked }
 
     companion object {
         const val width = 5
@@ -58,6 +87,9 @@ class BoardService(private val cardRepository: CardRepository,
         const val firstTeam = 9
         const val secondTeam = 8
     }
-
-
 }
+
+data class BoardClickResult(
+    val board: Board,
+    val winner: Team?
+)

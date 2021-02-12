@@ -14,4 +14,6 @@ class BoardRepository {
 
     fun findAll(): List<Board> = boards.values.toList()
 
+    fun update(board: Board): Board? =
+        boards.computeIfPresent(board.id) { _, _ -> board }
 }

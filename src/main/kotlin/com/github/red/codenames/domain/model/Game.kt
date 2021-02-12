@@ -12,14 +12,15 @@ enum class Type {
 }
 
 enum class GameState {
-    LOBBY, IN_GAME
+    LOBBY, IN_GAME, FINISHED
 }
 
 data class GameInstance(
     val id: String,
     val state: GameState,
     val boardId: String?,
-    val players: MutableList<String>
+    val players: List<String>,
+    val winner: Team?
 )
 
 data class Field(
@@ -30,8 +31,8 @@ data class Field(
 
 data class Board(
     val id: String,
-    val fields: MutableList<Field>,
-    val starts: Team,
+    val fields: List<Field>,
+    val guessingTeam: Team,
     val height: Int = 5,
     val width: Int = 5
 )

@@ -12,6 +12,9 @@ class GameRepository {
 
     fun getGame(id: String): GameInstance? = games[id]
 
+    fun getGameByBoard(boardId: String): GameInstance? =
+        games.values.first { it.boardId == boardId }
+
     fun saveGame(game: GameInstance): GameInstance? {
         val wasAdded = games.putIfAbsent(game.id, game) == null
         return if (wasAdded) game else null

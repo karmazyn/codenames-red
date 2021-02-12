@@ -3,7 +3,7 @@ import {INIT_BOARD, UPDATE_BOARD} from "../ActionTypes";
 const initialState = {
     boardId: "N/A",
     fields: [],
-    starts: "",
+    guessingTeam: "",
     numberOfBlue: null,
     numberOfRed: null
 };
@@ -14,7 +14,7 @@ export default function(state = initialState, action) {
             return {
                 boardId: action.payload.boardId,
                 fields: action.payload.fields,
-                starts: action.payload.starts,
+                guessingTeam: action.payload.guessingTeam,
                 numberOfRed: action.payload.numberOfRed,
                 numberOfBlue: action.payload.numberOfBlue
             };
@@ -25,7 +25,8 @@ export default function(state = initialState, action) {
                 ...state,
                 numberOfRed: action.payload.numberOfRed,
                 numberOfBlue: action.payload.numberOfBlue,
-                fields: action.payload.fields
+                fields: action.payload.fields,
+                guessingTeam: action.payload.guessingTeam,
             };
         }
 

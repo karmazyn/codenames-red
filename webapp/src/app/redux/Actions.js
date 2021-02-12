@@ -1,19 +1,19 @@
 import {INIT_BOARD, UPDATE_BOARD, ASSIGN_PLAYER_NAME, MOVE_PLAYER, LOAD_PLAYERS} from "./ActionTypes";
 
-export const initBoard = ({boardId, fields, starts, numberOfRed, numberOfBlue}) => ({
+export const initBoard = ({boardId, fields, guessingTeam, numberOfRed, numberOfBlue}) => ({
     type: INIT_BOARD,
     payload: {
         boardId,
         fields,
-        starts,
+        guessingTeam,
         numberOfRed,
         numberOfBlue
     },
 });
 
-export const updateBoard = ({fields, starts, numberOfRed, numberOfBlue}) => ({
+export const updateBoard = ({fields, guessingTeam, numberOfRed, numberOfBlue}) => ({
     type: UPDATE_BOARD,
-    payload: {fields, starts, numberOfRed, numberOfBlue}
+    payload: {fields, guessingTeam, numberOfRed, numberOfBlue}
 });
 
 export const movePlayer = ({playerName, direction}) => ({
