@@ -1,31 +1,19 @@
 import {LOAD_PLAYERS, MOVE_PLAYER} from "../ActionTypes";
 import Player from "../../Player";
+import {Teams} from "../../Player"
 
 const initialState = {
     players: {}
 };
 
 function nextTeam(currentTeam, direction) {
-    //nie oceniajcie mnie :<
-    switch (currentTeam) {
-        case "red":
-            if(direction === "right")
-                return "unassigned"
-            else if(direction === "left")
-                return "blue"
-            break;
-        case "unassigned":
-            if(direction === "left")
-                return "red";
-            else if (direction === "right")
-                return "blue";
-            break;
-        case "blue":
-            if(direction === "left")
-                return "unassigned";
-            else if (direction === "right")
-                return "red";
-            break;
+    switch (direction) {
+        case "left":
+            return Teams[currentTeam].left
+        case "right":
+            return Teams[currentTeam].right
+        default:
+            return Teams.NONE.name
     }
 }
 
@@ -41,13 +29,10 @@ export default function(state = initialState, action) {
 
         case LOAD_PLAYERS:
             let players = action.payload.players
-            let mapTeam = (team) => {
-                return team === "NONE" ? "unassigned" : team.toLowerCase()
-            }
 
             return {
                 players: Object.assign({}, ...players.map(
-                    player => ({[player.name]: new Player(player.name, mapTeam(player.team), player.role.toLowerCase())})
+                    player => ({[player.name]: new Player(player.name, player.team, player.role)})
                     )
                 )
             }

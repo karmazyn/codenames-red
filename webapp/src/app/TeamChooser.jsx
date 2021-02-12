@@ -7,12 +7,10 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Paper from '@material-ui/core/Paper';
 import {IconButton} from "@material-ui/core";
 import {ArrowLeftOutlined, ArrowRightOutlined} from "@material-ui/icons";
-import Player from './Player';
 import {connect} from "react-redux";
-import withStyles from "@material-ui/core/styles/withStyles";
-import {getBoardFields, getBoardId, getPlayers, getStartingPlayer} from "./redux/Selectors";
-import mapDispatchToProps from "react-redux/lib/connect/mapDispatchToProps";
+import {getPlayers} from "./redux/Selectors";
 import {movePlayer} from "./redux/Actions";
+import {Teams} from "./Player";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -20,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
     },
     paper: {
         width: 200,
-        height: 230,
+        height: 500,
         overflow: 'auto',
     },
     button: {
@@ -29,21 +27,32 @@ const useStyles = makeStyles((theme) => ({
     playerItem: {
         textAlign: "center"
     },
-    red: {backgroundColor: "#f44336"},
-    blue: {backgroundColor: "#3f51b5"},
-    unassigned: {}
+    red: {
+        backgroundColor: "#f44336",
+        height: 500,
+        width: 200
+    },
+    blue: {
+        backgroundColor: "#3f51b5",
+        height: 500,
+        width: 200
+    },
+    unassigned: {
+        height: 500,
+        width: 200
+    }
 }));
 
 
 const TeamChooser = ({players, movePlayer}) => {
     const classes = useStyles();
 
-    const red = Object.values(players).filter(player => player.team === "red");
-    const blue = Object.values(players).filter(player => player.team === "blue");
-    const unassigned = Object.values(players).filter(player => player.team === "unassigned");
+    const red = Object.values(players).filter(player => player.team === Teams.RED.name);
+    const blue = Object.values(players).filter(player => player.team === Teams.BLUE.name);
+    const unassigned = Object.values(players).filter(player => player.team === Teams.NONE.name);
 
     function handleButtonLeft(playerName) {
-        movePlayer({"playerName": playerName,"direction": "left"})
+        movePlayer({"playerName": playerName, "direction": "left"})
     }
 
     function handleButtonRight(playerName) {
