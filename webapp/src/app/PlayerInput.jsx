@@ -26,12 +26,12 @@ class PlayerInput extends Component {
             method: "POST"
         }).then((result) => {
             if (result.ok) {
-                this.setState({error: false})
                 this.props.assignPlayerName({name: this.state.value});
                 result.json().then((players) => {
                         this.props.loadPlayers({players: players});
                     }
                 )
+                this.setState({error: false, value: ''})
             } else {
                 this.setState({error: true})
             }
