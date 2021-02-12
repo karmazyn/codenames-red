@@ -47,6 +47,7 @@ class Board extends Component {
                     <GridListTile cols={1} rows={1} key={index} className={classes.gridListTile}>
                         <CodenameCard codename={card.codename}
                                       cardType={card.type}
+                                      clicked={card.clicked}
                                       index={index}
                                       boardId={boardId}/>
                     </GridListTile>

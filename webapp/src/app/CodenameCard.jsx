@@ -6,46 +6,75 @@ import Typography from "@material-ui/core/Typography";
 import withStyles from "@material-ui/core/styles/withStyles";
 import {updateBoard} from "./redux/Actions";
 import { connect } from "react-redux";
+import passerby from "../images/passerby.png"
+import red from "../images/red.png"
+import blue from "../images/blue.png"
+import assassin from "../images/assassin.png"
+import background from "../images/codenames-bg.jpg"
 
 const useStyles = (theme) => ({
     card_DEFAULT: {
         height: '100%',
         display: 'flex',
         flexDirection: 'column',
-        backgroundColor: "#f1e6d3"
+        backgroundColor: "#f1e6d3",
+        backgroundImage: `url(${background})`,
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "cover",
+        fontcolor: "#ffffff"
     },
     card_PASSERBY: {
         height: '100%',
         display: 'flex',
         flexDirection: 'column',
-        backgroundColor: "#cbcbcb"
+        backgroundColor: "#cbcbcb",
+        backgroundImage: `url(${passerby})`,
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "cover"
     },
     card_RED: {
         height: '100%',
         display: 'flex',
         flexDirection: 'column',
-        backgroundColor: "#de2c3d"
+        backgroundColor: "#de2c3d",
+        backgroundImage: `url(${red})`,
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "cover",
+        fontcolor: "#ffffff"
     },
     card_BLUE: {
         height: '100%',
         display: 'flex',
         flexDirection: 'column',
-        backgroundColor: "#3d96cf"
+        backgroundColor: "#3d96cf",
+        backgroundImage: `url(${blue})`,
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "cover",
+        fontcolor: "#ffffff"
     },
     card_ASSASIN: {
         height: '100%',
         display: 'flex',
         flexDirection: 'column',
-        backgroundColor: "#474441"
-    },
-    media: {
-        paddingTop: '56.25%', // 16:9
-        height: '0',
-        flexGrow: 1
+        backgroundColor: "#474441",
+        backgroundImage: `url(${assassin})`,
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "cover",
+        fontcolor: "#ffffff"
     },
     actionArea: {
         display: "flex",
+        height: "100%"
+    },
+    transparentActionArea: {
+        display: "flex",
         height: "100%",
+        background: "rgba(255,255,255,0.5)"
     },
     content: {
         flexGrow: 1,
@@ -58,7 +87,7 @@ const useStyles = (theme) => ({
         alignContent: "center",
         alignItems: "center",
         justifyContent: "center",
-        textAlign: "center",
+        textAlign: "center"
     },
     cardBox: {
         display: "flex",
@@ -100,14 +129,7 @@ class CodenameCard extends Component {
             <Card className={classes[`card_${this.props.cardType || "DEFAULT"}`]}
                   onClick={() => this.handleClick(this.props.index, this.props.boardId)}
                   variant={"outlined"}>
-                <CardActionArea className={classes.actionArea}>
-                    {/*<CardMedia*/}
-                    {/*    className={classes.media}*/}
-                    {/*    component={"img"}*/}
-                    {/*    alt={props.codename}*/}
-                    {/*    image={cardBackground}*/}
-                    {/*    title={props.codename}*/}
-                    {/*/>*/}
+                <CardActionArea className={classes[`${this.props.clicked ? "actionArea" : "transparentActionArea"}`]}>
                     <CardContent className={classes.content}>
                         <Box className={classes.cardBox}>
                             <Typography align={"center"} className={classes.codename}
