@@ -19,26 +19,26 @@ import org.springframework.web.bind.annotation.CookieValue
 class BoardController(private val boardService: BoardService) {
     @GetMapping("/{id}")
     fun getBoard(@PathVariable id: String,
-                 @CookieValue("role", required = false) role: String?): ResponseBoard? =
+                 @CookieValue("role", required = false) role: String?): BoardResponse? =
             boardService.getBoard(id.toLowerCase())?.let { mapBoardForPlayer(it, CAPTAIN.isRole(role)) }
 
     @GetMapping
-    fun getAllBoards(): List<ResponseBoard> = boardService.listBoards().map { mapBoardForPlayer(it) }
+    fun getAllBoards(): List<BoardResponse> = boardService.listBoards().map { mapBoardForPlayer(it) }
 
     @PostMapping
-    fun createBoard(): ResponseBoard = mapBoardForPlayer(boardService.generateBoard())
+    fun createBoard(): BoardResponse = mapBoardForPlayer(boardService.generateBoard())
 
     @PostMapping("/clicks", consumes = ["application/json"])
     fun clicks(@RequestBody request: ClickRequest,
-               @CookieValue("role", required = false) role: String?): ResponseBoard =
+               @CookieValue("role", required = false) role: String?): BoardResponse =
         mapBoardForPlayer(boardService.clickCard(request.boardId, request.cardIndex), CAPTAIN.isRole(role))
 
-    private fun mapBoardForPlayer(board: Board, isCaptain: Boolean = true): ResponseBoard =
-        ResponseBoard(
+    private fun mapBoardForPlayer(board: Board, isCaptain: Boolean = true): BoardResponse =
+        BoardResponse(
             id = board.id,
             fields = board.fields.map {
                 val shouldShowTypes = it.clicked
-                ResponseField(
+                FieldResponse(
                     codename = if (!shouldShowTypes) it.codename else "",
                     type = if (shouldShowTypes || isCaptain) it.type else null,
                     clicked = it.clicked,
@@ -57,17 +57,17 @@ data class ClickRequest(
     val cardIndex: Int
 )
 
-data class ResponseField(
+data class FieldResponse(
     val codename: String,
     val type: Type?,
     val clicked: Boolean
 )
 
-data class ResponseBoard(
+data class BoardResponse(
     val id: String,
-    val fields: List<ResponseField>,
     val numberOfRed: Int,
     val numberOfBlue: Int,
+    val fields: List<FieldResponse>,
     val starts: Team,
     val height: Int,
     val width: Int
