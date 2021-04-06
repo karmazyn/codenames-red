@@ -6,7 +6,7 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import PlayerInfo from "./PlayerInfo";
 import {getPlayerName} from "./redux/Selectors";
 import {connect} from "react-redux";
-import {Link} from "react-router-dom";
+// import {Link} from "react-router-dom";
 
 const useStyles = theme => ({
     '@global': {
@@ -39,9 +39,9 @@ class DashboardPanel extends Component {
                     <Typography variant="h6" color="inherit" noWrap className={classes.toolbarTitle}>
                         Hackatajniacy
                     </Typography>
-                    <div style={{flexGrow: 10}}>
-                        <Link to="/lobby">Lobby</Link>
-                    </div>
+                    {/*<div style={{flexGrow: 10}}>*/}
+                    {/*    <Link to="/lobby">Lobby</Link>*/}
+                    {/*</div>*/}
                     <PlayerInfo name={this.props.name}/>
                 </Toolbar>
             </AppBar>

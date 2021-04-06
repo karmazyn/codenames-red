@@ -14,7 +14,7 @@ class GameService(
     fun createGame(playerId: String): GameInstance =
         gameRepository.saveGame(
             GameInstance(
-                id = UUID.randomUUID().toString(),
+                id = "singleton_game_id",
                 state = GameState.LOBBY,
                 boardId = null,
                 players = mutableListOf(playerId),
@@ -30,24 +30,27 @@ class GameService(
             if (!listOf(GameState.LOBBY, GameState.FINISHED).contains(it.state))
                 throw IllegalStateException()
 
-            gameRepository.updateGame(
-                it.copy(
-                    state = GameState.IN_GAME,
-                    boardId = boardService.generateBoard().id,
-                    winner = null,
-                )
-            )
+            synchronized(gameRepository) {
+                if (getGame(gameId)!!.boardId === null) {
+                    gameRepository.updateGame(
+                            it.copy(
+                                    state = GameState.IN_GAME,
+                                    boardId = boardService.generateBoard().id,
+                                    winner = null,
+                            )
+                    )
+                } else {
+                    getGame(gameId)
+                }
+            }
         }
 
     fun restartGame(gameId: String): GameInstance? =
         getGame(gameId)?.let {
-            if (!listOf(GameState.IN_GAME, GameState.FINISHED).contains(it.state))
-                throw IllegalStateException()
-
             gameRepository.updateGame(
                 it.copy(
                     state = GameState.IN_GAME,
-                    boardId = boardService.generateBoard().id,
+                    boardId = boardService.overwriteBoard().id,
                     winner = null,
                 )
             )

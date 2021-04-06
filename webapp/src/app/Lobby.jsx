@@ -4,8 +4,11 @@ import {connect} from "react-redux";
 import {getBoardFields, getBoardId, getGuessingTeam} from "./redux/Selectors";
 import DashboardPanel from "./DashboardPanel";
 import {loadPlayers} from "./redux/Actions";
-import PlayerInput from "./PlayerInput";
+import {Link} from "react-router-dom";
+import {Button} from "@material-ui/core";
 import CssBaseline from "@material-ui/core/CssBaseline";
+import {withRouter} from 'react-router';
+import PlayerInput from "./PlayerInput";
 
 class Lobby extends Component {
     componentDidMount() {
@@ -21,6 +24,7 @@ class Lobby extends Component {
                     players: result
                 })
             }).then(() => this.updatePlayersScheduledAsync())
+            // .then(() => this.isGameStartedAsync())
     }
 
     componentWillUnmount() {
@@ -39,6 +43,22 @@ class Lobby extends Component {
         }, 1000);
     }
 
+    isGameStartedAsync() {
+        let intervalId = setInterval(() => {
+            clearInterval(intervalId);
+            fetch("/api/game/singleton_game_id")
+                .then(result => result.json())
+                .then(result => {
+                    console.log(result);
+                    if (result.state === "IN_GAME") {
+                        this.props.history.push("/game");
+                    } else {
+                        this.isGameStartedAsync()
+                    }
+                })
+        }, 1000)
+    }
+
     render() {
         return (
             <React.Fragment>
@@ -46,6 +66,11 @@ class Lobby extends Component {
                 <DashboardPanel/>
                 <PlayerInput />
                 <TeamChooser/>
+                <div style={{textAlign: "center"}}>
+                    <Link to="/game">
+                        <Button>Go to or Create new game</Button>
+                    </Link>
+                </div>
             </React.Fragment>
         );
     }
@@ -59,4 +84,4 @@ const mapStateToProps = state => {
     };
 }
 
-export default connect(mapStateToProps, {loadPlayers})(Lobby);
+export default connect(mapStateToProps, {loadPlayers})(withRouter(Lobby));

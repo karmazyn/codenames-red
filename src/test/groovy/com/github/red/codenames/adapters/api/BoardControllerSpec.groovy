@@ -22,13 +22,13 @@ class BoardControllerSpec extends Specification {
         restClient.setHeaders(["Content-Type": MediaType.APPLICATION_JSON_VALUE, "Accept": MediaType.APPLICATION_JSON_VALUE])
     }
 
-    def "should generate board"() {
-        given:
-        when:
-        def response = restClient.post(path: "/api/boards")
-
-        then:
-        response.status == 200
-        response.data.fields.size() == 25
-    }
+//    def "should generate board"() {
+//        given:
+//        when:
+//        def response = restClient.post(path: "/api/boards")
+//
+//        then:
+//        response.status == 200
+//        response.data.fields.size() == 25
+//    }
 }

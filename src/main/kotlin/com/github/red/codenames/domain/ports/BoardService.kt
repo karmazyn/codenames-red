@@ -17,8 +17,7 @@ class BoardService(private val cardRepository: CardRepository,
 
 
     fun getBoard(id: String) = boardRepository.findOne(id)
-
-    fun generateBoard(): Board {
+    private fun generate(): Board {
         val cards = cardRepository.getCards(fields)
         val starts = Team.values()[Random.nextInt(2)]
         val fields = cards.mapIndexed { index, card ->
@@ -33,9 +32,10 @@ class BoardService(private val cardRepository: CardRepository,
                 else -> Field(selectSide(card), Type.ASSASIN)
             }
         }
-        val board = Board(UUID.randomUUID().toString(), fields.shuffled().toMutableList(), starts, height, width)
-        return boardRepository.save(board)
+        return Board("single_board", fields.shuffled().toMutableList(), starts, height, width)
     }
+    fun generateBoard(): Board = boardRepository.save(generate())
+    fun overwriteBoard(): Board = boardRepository.overwrite(generate())
 
     fun clickCard(boardId: String, cardId: Int): BoardClickResult? =
         getBoard(boardId)?.let {

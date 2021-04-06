@@ -15,8 +15,8 @@ class App extends Component {
         return (
             <main>
                 <Switch>
-                    <Route path="/" component={Game} exact/>
-                    <Route path="/lobby" component={Lobby}/>
+                    <Route path="/" component={Lobby} exact/>
+                    <Route path="/game" component={Game}/>
                     <Route component={Error}/>
                 </Switch>
             </main>
