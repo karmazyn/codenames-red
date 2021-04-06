@@ -8,11 +8,13 @@ import {Link} from "react-router-dom";
 import {Button} from "@material-ui/core";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import {withRouter} from 'react-router';
-
+import PlayerInput from "./PlayerInput";
+import CssBaseline from "@material-ui/core/CssBaseline";
 
 class Lobby extends Component {
-
     componentDidMount() {
+        this.refreshIntervalId = null;
+
         const url = "/api/players"
         fetch(url, {
             method: "GET"
@@ -26,9 +28,15 @@ class Lobby extends Component {
             .then(() => this.isGameStartedAsync())
     }
 
+    componentWillUnmount() {
+        if (this.refreshIntervalId) {
+            clearInterval(this.refreshIntervalId);
+        }
+    }
+
     updatePlayersScheduledAsync() {
-        let intervalId = setInterval(() => {
-            clearInterval(intervalId);
+        this.refreshIntervalId = setInterval(() => {
+            clearInterval(this.refreshIntervalId);
             fetch("/api/players")
                 .then(result => result.json())
                 .then(result => this.props.loadPlayers({players: result}))
@@ -57,6 +65,7 @@ class Lobby extends Component {
             <React.Fragment>
                 <CssBaseline/>
                 <DashboardPanel/>
+                <PlayerInput />
                 <TeamChooser/>
                 <div style={{textAlign: "center"}}>
                     <Link to="/game">

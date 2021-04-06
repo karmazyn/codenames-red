@@ -1,22 +1,29 @@
 import React, {Component} from "react";
-import {InputAdornment} from "@material-ui/core";
-import {Input} from "@material-ui/core";
-import {PlusOne} from "@material-ui/icons";
+import {Button, TextField} from "@material-ui/core";
 import withStyles from "@material-ui/core/styles/withStyles";
 import {connect} from "react-redux";
 import {getPlayerName} from "./redux/Selectors";
 import {assignPlayerName, loadPlayers} from "./redux/Actions";
+import Grid from "@material-ui/core/Grid";
 
 const useStyles = theme => ({
-    login: {
-        margin: theme.spacing(1, 1.5),
+    loginRoot: {
+        marginBottom: '1em',
+        justify: 'center',
+        alignItems: 'center'
     },
 });
+
+const initialState = {
+    value: '',
+    error: false,
+    errorMessage: ''
+};
 
 class PlayerInput extends Component {
     constructor(props) {
         super(props);
-        this.state = {value: '', error: false};
+        this.state = initialState;
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
     }
@@ -31,12 +38,14 @@ class PlayerInput extends Component {
                         this.props.loadPlayers({players: players});
                     }
                 )
-                this.setState({error: false, value: ''})
+                this.setState(initialState)
+            } else if (result.status === 409) {
+                this.setState({error: true, errorMessage: 'Gracz już istnieje'})
             } else {
-                this.setState({error: true})
+                this.setState({error: true, errorMessage: 'Nie udało się'})
             }
         }).catch((error) => {
-            this.setState({error: true})
+            this.setState({error: true, errorMessage: 'Nie udało się'})
         })
         event.preventDefault();
     }
@@ -48,16 +57,22 @@ class PlayerInput extends Component {
     render() {
         const {classes} = this.props;
         return (
-            <form onSubmit={this.handleSubmit}>
-                <Input id="input-login" className={classes.login} variant="outlined" placeholder={"Podaj imię"}
-                       value={this.state.value} error={this.state.error} onChange={this.handleChange}
-                       endAdornment={
-                           <InputAdornment position={"end"}>
-                               <PlusOne/>
-                           </InputAdornment>
-                       }
-                />
-            </form>
+                <form onSubmit={this.handleSubmit}>
+                    <Grid container spacing={2} direction={"column"} className={classes.loginRoot}>
+                        <Grid item xs={12}>
+                            <TextField
+                                id="input-login"
+                                value={this.state.value} error={this.state.error} onChange={this.handleChange}
+                                placeholder={"Podaj imię"}
+                                label="Gracz"
+                                helperText={this.state.errorMessage}
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <Button variant="contained" color="primary" onClick={this.handleSubmit}>Dołącz</Button>
+                        </Grid>
+                    </Grid>
+                </form>
         );
     }
 }

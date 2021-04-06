@@ -36,7 +36,7 @@ class Board extends Component {
         const {boardId, fields, guessingTeam} = this.props
 
         return (
-            <GridList className={classes.gridList} spacing={5} cols={5}>
+            <GridList cellHeight={120} className={classes.gridList} spacing={5} cols={5}>
                 <GridListTile key="Subheader" className={classes.subheader} cols={5}>
                     <ListSubheader disableGutters disableSticky component="div">
                         <Typography variant={"h3"}>Kto teraz: {guessingTeam}!</Typography>
@@ -47,6 +47,7 @@ class Board extends Component {
                     <GridListTile cols={1} rows={1} key={index} className={classes.gridListTile}>
                         <CodenameCard codename={card.codename}
                                       cardType={card.type}
+                                      clicked={card.clicked}
                                       index={index}
                                       boardId={boardId}/>
                     </GridListTile>

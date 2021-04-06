@@ -3,7 +3,6 @@ import {Typography} from "@material-ui/core";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import withStyles from "@material-ui/core/styles/withStyles";
-import PlayerInput from "./PlayerInput";
 import PlayerInfo from "./PlayerInfo";
 import {getPlayerName} from "./redux/Selectors";
 import {connect} from "react-redux";
@@ -44,7 +43,6 @@ class DashboardPanel extends Component {
                     {/*    <Link to="/lobby">Lobby</Link>*/}
                     {/*</div>*/}
                     <PlayerInfo name={this.props.name}/>
-                    <PlayerInput />
                 </Toolbar>
             </AppBar>
         );

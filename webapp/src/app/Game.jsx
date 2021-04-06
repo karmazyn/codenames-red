@@ -11,6 +11,7 @@ import {initBoard, updateBoard} from "./redux/Actions";
 
 class Game extends Component {
     componentDidMount() {
+        this.refreshIntervalId = null;
         this.createNewGame();
     }
 
@@ -37,9 +38,15 @@ class Game extends Component {
             });
     }
 
+    componentWillUnmount() {
+        if (this.refreshIntervalId) {
+            clearInterval(this.refreshIntervalId);
+        }
+    }
+
     updateBoardStateScheduleAsync() {
-        let intervalId = setInterval(() => {
-            clearInterval(intervalId);
+        this.refreshIntervalId = setInterval(() => {
+            clearInterval(this.refreshIntervalId);
             fetch(`/api/boards/${this.props.boardId}`)
                 .then(result => result.json())
                 .then(result => this.props.updateBoard(result))
@@ -62,7 +69,6 @@ class Game extends Component {
                         </Grid>
                     </Grid>
                 </Container>
-                {/*<TeamChooser />*/}
             </React.Fragment>
         );
     }
