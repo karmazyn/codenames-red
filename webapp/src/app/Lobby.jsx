@@ -9,7 +9,6 @@ import {Button} from "@material-ui/core";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import {withRouter} from 'react-router';
 import PlayerInput from "./PlayerInput";
-import CssBaseline from "@material-ui/core/CssBaseline";
 
 class Lobby extends Component {
     componentDidMount() {
@@ -25,7 +24,7 @@ class Lobby extends Component {
                     players: result
                 })
             }).then(() => this.updatePlayersScheduledAsync())
-            .then(() => this.isGameStartedAsync())
+            // .then(() => this.isGameStartedAsync())
     }
 
     componentWillUnmount() {
