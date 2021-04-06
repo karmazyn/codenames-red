@@ -12,6 +12,11 @@ class BoardRepository {
     fun save(board: Board): Board =
             boards.putIfAbsent(board.id, board) ?: board
 
+    fun overwrite(board: Board): Board {
+        boards[board.id] = board
+        return board
+    }
+
     fun findAll(): List<Board> = boards.values.toList()
 
     fun update(board: Board): Board? =
